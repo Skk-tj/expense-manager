@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="DdlMappings">
+    <mapping uuid="3ed81821-f322-4cec-bbc0-f305bb45d4fe" name="expense Mapping">
+      <data-sources db="3b189890-9905-4f01-b68d-6daffb4d000e" />
+    </mapping>
+  </component>
+</project>
