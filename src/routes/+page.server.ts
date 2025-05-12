@@ -1,29 +1,27 @@
 import type { PageServerLoad } from './$types';
 import { db } from '$lib/server/db';
 import { expenseSelectSchema } from '$lib/server/db/schema';
+import { z } from 'zod';
 
 export const load: PageServerLoad = async () => {
 	const expense = await db.query.expenses.findMany({
-		columns: {
-			categoryId: false
-		},
 		with: {
-			category: {
-				columns: {
-					category: true
-				}
-			}
+			category: {}
 		}
 	});
 
-	const mapped = expense.map((x) => {
-		return {
-			...x,
-			category: x.category?.category ?? ''
-		};
-	});
+	const parsed = expense.map((x) =>
+		expenseSelectSchema
+			.extend({
+				category: z.object({
+					id: z.number().int(),
+					category: z.string()
+				})
+			})
+			.parse(x)
+	);
 
 	return {
-		expense: mapped
+		expense: parsed
 	};
 };

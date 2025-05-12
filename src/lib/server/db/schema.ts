@@ -22,7 +22,10 @@ export const expenses = sqliteTable('expenses', {
 });
 
 export const categoryRelation = relations(expenses, ({ one }) => ({
-	category: one(categories)
+	category: one(categories, {
+		fields: [expenses.categoryId],
+		references: [categories.id]
+	})
 }));
 
 export const categoryToEntriesRelation = relations(categories, ({ one }) => ({
@@ -31,7 +34,10 @@ export const categoryToEntriesRelation = relations(categories, ({ one }) => ({
 
 export const expenseSelectSchema = createSelectSchema(expenses, {
 	id: z.number().int(),
-	transactionDate: z.string().date(),
+	transactionDate: z
+		.string()
+		.date()
+		.transform((x) => new Date(x)),
 	vendor: z.string(),
 	price: z.number().nonnegative(),
 	categoryId: z.number().int(),
