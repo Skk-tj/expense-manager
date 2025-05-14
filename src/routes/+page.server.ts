@@ -1,27 +1,24 @@
 import type { PageServerLoad } from './$types';
 import { db } from '$lib/server/db';
-import { expenseSelectSchema } from '$lib/server/db/schema';
-import { z } from 'zod';
+import { expenses } from '$lib/server/db/schema';
+import { sum } from 'drizzle-orm/sql/functions/aggregate';
+import { and, sql } from 'drizzle-orm';
 
 export const load: PageServerLoad = async () => {
-	const expense = await db.query.expenses.findMany({
-		with: {
-			category: {}
-		}
-	});
+	const thisMonth = new Date().getMonth() + 1;
+	const thisYear = new Date().getFullYear();
 
-	const parsed = expense.map((x) =>
-		expenseSelectSchema
-			.extend({
-				category: z.object({
-					id: z.number().int(),
-					category: z.string()
-				})
-			})
-			.parse(x)
-	);
+	const theSum = await db
+		.select({ value: sum(expenses.price) })
+		.from(expenses)
+		.where(
+			and(
+				sql`CAST(strftime('%m', ${expenses.transactionDate}) as INT) = ${thisMonth}`,
+				sql`CAST(strftime('%Y', ${expenses.transactionDate}) as INT) = ${thisYear}`
+			)
+		);
 
 	return {
-		expense: parsed
+		sum: Number.parseFloat(theSum[0]?.value ?? '0')
 	};
 };
