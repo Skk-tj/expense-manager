@@ -45,3 +45,12 @@ export const expenseSelectSchema = createSelectSchema(expenses, {
 	extraInfo: z.string().nullable(),
 	currency: z.string().length(3)
 });
+
+export const expenseWithCategorySchema = expenseSelectSchema.extend({
+	category: z.object({
+		id: z.number().int(),
+		category: z.string()
+	})
+});
+
+export type Expense = z.infer<typeof expenseWithCategorySchema>;
