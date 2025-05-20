@@ -2,7 +2,7 @@
 	import '../app.css';
 	import TopBar from '$lib/TopBar.svelte';
 	import Navigation from '$lib/Navigation.svelte';
-	import type { Tabs } from '$lib/tabs';
+	import type { Tabs } from '$lib';
 
 	let { children } = $props();
 
@@ -14,6 +14,6 @@
 </aside>
 
 <main class="flex flex-1 flex-col">
-	<TopBar bind:tab={currentTab} />
+	<TopBar tab={currentTab} />
 	{@render children()}
 </main>

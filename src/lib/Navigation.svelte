@@ -2,13 +2,14 @@
 	import { Navigation } from '@skeletonlabs/skeleton-svelte';
 	import CreditCard from '@lucide/svelte/icons/credit-card';
 	import CircleDollarSign from '@lucide/svelte/icons/circle-dollar-sign';
-	import type { Tabs } from '$lib/tabs';
+	import Plus from '@lucide/svelte/icons/plus';
+	import type { Tabs } from '$lib';
 
 	interface Props {
 		tab: Tabs;
 	}
 
-	let { tab = $bindable('transactions') }: Props = $props();
+	let { tab = $bindable() }: Props = $props();
 </script>
 
 <div class="card border-surface-100-900 grid h-full grid-cols-[auto_1fr] border-[1px]">
@@ -16,7 +17,7 @@
 	<Navigation.Rail
 		value={tab}
 		onValueChange={(newValue) => {
-			if (newValue === 'summary' || newValue === 'transactions') {
+			if (newValue === 'summary' || newValue === 'transactions' || newValue === 'add') {
 				tab = newValue;
 			}
 		}}
@@ -28,6 +29,10 @@
 
 			<Navigation.Tile id="transactions" label="Transactions" href="/transactions">
 				<CreditCard />
+			</Navigation.Tile>
+
+			<Navigation.Tile id="add" label="Add" href="/add">
+				<Plus />
 			</Navigation.Tile>
 		{/snippet}
 	</Navigation.Rail>
