@@ -8,10 +8,10 @@
 		themeQuartz
 	} from 'ag-grid-community';
 	import { onMount } from 'svelte';
-	import { type Expense } from '$lib/server/db/schema';
+	import { type ExpenseWithCategory } from '$lib/server/db/schema';
 
 	interface Props {
-		expense: Expense[];
+		expense: ExpenseWithCategory[];
 	}
 
 	let { expense }: Props = $props();
@@ -20,7 +20,12 @@
 		theme: themeQuartz.withPart(colorSchemeDark),
 		rowData: expense,
 		columnDefs: [
-			{ field: 'transactionDate', filter: 'agDateColumnFilter', cellDataType: 'date' },
+			{
+				field: 'transactionDate',
+				filter: 'agDateColumnFilter',
+				cellDataType: 'date',
+				sort: 'desc'
+			},
 			{ field: 'vendor', filter: true },
 			{ field: 'currency', cellDataType: 'text' },
 			{
@@ -56,6 +61,7 @@
 	onMount(() => {
 		// Register all Community features
 		ModuleRegistry.registerModules([AllCommunityModule]);
+		console.log(expense[0]);
 	});
 
 	$effect(() => {
