@@ -50,13 +50,20 @@ export async function getMonthlyTrend() {
 			sql`CAST(strftime('%m', transaction_date) as INT), CAST(strftime('%Y', transaction_date) as INT)`
 		);
 
-	return trend.map(({ month, year, sum }) => {
-		return {
-			date: [year, month],
-			sum: Number.parseFloat(sum ?? '0')
-		};
-	});
-	// .sort((a, b) => a.date - b.date);
+	return trend
+		.map(({ month, year, sum }) => {
+			return {
+				date: [Number(year), Number(month)] as [number, number],
+				sum: Number.parseFloat(sum ?? '0')
+			};
+		})
+		.sort((a, b) => {
+			if (a.date[0] !== b.date[0]) {
+				return a.date[0] - b.date[0];
+			}
+			// If years are equal, compare months
+			return a.date[1] - a.date[1];
+		});
 }
 
 export async function getMonthlyTrendByCategory() {
@@ -74,21 +81,25 @@ export async function getMonthlyTrendByCategory() {
 			sql`CAST(strftime('%m', transaction_date) as INT), CAST(strftime('%Y', transaction_date) as INT), category_id`
 		);
 
-	console.log(trend);
-
 	const byCategory = trend.reduce(
 		(acc, { month, year, category_id, sum }) => {
 			const timeKey = `${year}-${month}`;
 			if (!acc[timeKey]) {
 				acc[timeKey] = {
-					time: [year, month]
+					time: [Number(year), Number(month)]
 				};
 			}
 			acc[timeKey][category_id] = Number.parseFloat(sum ?? '0');
 			return acc;
 		},
-		{} as Record<string, { time: [unknown, unknown]; [key: string]: number | [unknown, unknown] }>
+		{} as Record<string, { time: [number, number]; [key: string]: number | [number, number] }>
 	);
 
-	return Object.values(byCategory);
+	return Object.values(byCategory).sort((a, b) => {
+		if (a.time[0] !== b.time[0]) {
+			return a.time[0] - b.time[0];
+		}
+		// If years are equal, compare months
+		return a.time[1] - a.time[1];
+	});
 }

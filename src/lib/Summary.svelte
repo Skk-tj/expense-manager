@@ -7,8 +7,8 @@
 		sum: number;
 		lastMonthSum: number;
 		sumByCategories: { category: string; sum: number }[];
-		sumTrend: { date: Date; sum: number }[];
-		sumTrendByCategory: { time: Date; [key: string]: number | Date }[];
+		sumTrend: { date: [number, number]; sum: number }[];
+		sumTrendByCategory: { time: [number, number]; [key: string]: number | [number, number] }[];
 	}
 
 	let { sum, lastMonthSum, sumByCategories, sumTrend, sumTrendByCategory }: Props = $props();
