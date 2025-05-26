@@ -12,5 +12,3 @@ export const Categories = {
 	8: 'Travel',
 	9: 'Pet'
 } as const;
-
-export const CategoryKeys = Object.keys(Categories);

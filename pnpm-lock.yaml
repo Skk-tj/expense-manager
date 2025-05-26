@@ -32,6 +32,9 @@ importers:
       ag-grid-community:
         specifier: ^33.3.0
         version: 33.3.0
+      ag-grid-enterprise:
+        specifier: ^33.3.0
+        version: 33.3.0
       drizzle-orm:
         specifier: ^0.40.1
         version: 0.40.1(@cloudflare/workers-types@4.20250525.0)(@libsql/client@0.14.0)(gel@2.1.0)
@@ -1370,6 +1373,9 @@ packages:
   ag-charts-core@11.3.0:
     resolution: {integrity: sha512-qfiVsKDS1VggDPODeoGu3i46TLvEP8xPaAOKOunC7wH07wi4CeA9TYv9tiBArU8VagUFi/ive74zN7yVYtRpSg==}
 
+  ag-charts-enterprise@11.3.0:
+    resolution: {integrity: sha512-EnZSJvmmizvw+xgawQ6xwogzLa7Ei+qNQ4DigvRaU0g9pgeS27fZj0df321dvc1zGP29wBAJ/eCFUi3xbGEhVg==}
+
   ag-charts-locale@11.3.0:
     resolution: {integrity: sha512-2tmOiDV+2kVCuo3eBPwPDaga6WesEcmyjhbu+omcC4xTfY9vrdulUZxy56fk6jThayVHRsawEHH/ue5LvkqHyA==}
 
@@ -1378,6 +1384,9 @@ packages:
 
   ag-grid-community@33.3.0:
     resolution: {integrity: sha512-Nr7Wd3Qc0tbR+BWZ4y8LgEwLkHTvrtJ4f4k5eb4zuoNZFM52MyLfu+m4OAplIm9nOVBdp5tg/ALWvu13jak+Nw==}
+
+  ag-grid-enterprise@33.3.0:
+    resolution: {integrity: sha512-dzA3BpNDAsM7sRIoRTg4Q60imloaMsLlx7DY16w1/NbT07SLgdi6c/+YZDd9ZPtincO0Ubxu9UkQPRmMZksswg==}
 
   ajv@6.12.6:
     resolution: {integrity: sha512-j3fVLgvTo527anyYyJOGTYJbG+vnnQYvE0m5mmkc1TK+nxAppkCLMIL0aZ4dblVCNoGShhm+kzE4ZUykBoMg4g==}
@@ -3756,6 +3765,12 @@ snapshots:
     dependencies:
       ag-charts-types: 11.3.0
 
+  ag-charts-enterprise@11.3.0:
+    dependencies:
+      ag-charts-community: 11.3.0
+      ag-charts-core: 11.3.0
+    optional: true
+
   ag-charts-locale@11.3.0: {}
 
   ag-charts-types@11.3.0: {}
@@ -3763,6 +3778,13 @@ snapshots:
   ag-grid-community@33.3.0:
     dependencies:
       ag-charts-types: 11.3.0
+
+  ag-grid-enterprise@33.3.0:
+    dependencies:
+      ag-grid-community: 33.3.0
+    optionalDependencies:
+      ag-charts-community: 11.3.0
+      ag-charts-enterprise: 11.3.0
 
   ajv@6.12.6:
     dependencies:

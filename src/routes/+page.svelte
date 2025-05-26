@@ -3,8 +3,6 @@
 	import Summary from '$lib/Summary.svelte';
 
 	let props: PageProps = $props();
-
-	console.log(props);
 </script>
 
 <div class="p-2">

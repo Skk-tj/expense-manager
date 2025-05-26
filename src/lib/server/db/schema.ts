@@ -1,6 +1,6 @@
 import { relations } from 'drizzle-orm';
 import { sqliteTable, text, integer, real } from 'drizzle-orm/sqlite-core';
-import { createInsertSchema, createSelectSchema } from 'drizzle-zod';
+import { createInsertSchema, createSelectSchema, createUpdateSchema } from 'drizzle-zod';
 import { z } from 'zod';
 
 export const categories = sqliteTable('categories', {
@@ -57,3 +57,4 @@ export const expenseWithCategorySchema = expenseSelectSchema.extend({
 export type Expense = z.infer<typeof expenseSelectSchema>;
 export type ExpenseWithCategory = z.infer<typeof expenseWithCategorySchema>;
 export const expenseInsertSchema = createInsertSchema(expenses);
+export const expenseUpdateSchema = createUpdateSchema(expenses);

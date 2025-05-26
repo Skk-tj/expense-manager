@@ -3,6 +3,8 @@
 	import TopBar from '$lib/TopBar.svelte';
 	import Navigation from '$lib/Navigation.svelte';
 	import type { Tabs } from '$lib';
+	import { Toaster } from '@skeletonlabs/skeleton-svelte';
+	import { toaster } from '$lib/toaster/toaster';
 
 	let { children } = $props();
 
@@ -17,3 +19,5 @@
 	<TopBar tab={currentTab} />
 	{@render children()}
 </main>
+
+<Toaster {toaster}></Toaster>
