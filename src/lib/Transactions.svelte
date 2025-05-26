@@ -9,7 +9,7 @@
 		type NewValueParams,
 		themeQuartz
 	} from 'ag-grid-community';
-	import { RichSelectModule } from 'ag-grid-enterprise';
+	import { RichSelectModule, SetFilterModule } from 'ag-grid-enterprise';
 	import { onMount } from 'svelte';
 	import { type ExpenseWithCategory } from '$lib/server/db/schema';
 	import { Categories } from '$lib/index';
@@ -35,11 +35,11 @@
 			},
 			{
 				field: 'vendor',
-				filter: true,
+				filter: 'agSetColumnFilter',
 				editable: true,
 				onCellValueChanged: onVendorCellEdited
 			},
-			{ field: 'currency', cellDataType: 'text' },
+			{ field: 'currency', cellDataType: 'text', filter: 'agSetColumnFilter' },
 			{
 				field: 'price',
 				filter: 'agNumberColumnFilter',
@@ -51,7 +51,7 @@
 			},
 			{
 				field: 'category',
-				filter: true,
+				filter: 'agSetColumnFilter',
 				headerName: 'Category',
 				cellDataType: 'object',
 				valueFormatter: (p) => p.value.category,
@@ -101,7 +101,7 @@
 
 	onMount(() => {
 		// Register all Community features
-		ModuleRegistry.registerModules([AllCommunityModule, RichSelectModule]);
+		ModuleRegistry.registerModules([AllCommunityModule, RichSelectModule, SetFilterModule]);
 	});
 
 	$effect(() => {

@@ -7,7 +7,7 @@ import { eq } from 'drizzle-orm';
 export const POST: RequestHandler = async ({ request }) => {
 	const { id, category } = await request.json();
 
-	const toUpdate = { categoryId: category.id };
+	const toUpdate = { categoryId: Number(category.id) };
 	const parsed = expenseUpdateSchema.parse(toUpdate);
 
 	await db.update(expenses).set(parsed).where(eq(expenses.id, id));
