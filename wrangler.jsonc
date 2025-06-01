@@ -3,7 +3,6 @@
 	"name": "expense-manager",
 	"compatibility_flags": ["nodejs_compat"],
 	"compatibility_date": "2025-06-01",
-	"pages_build_output_dir": ".svelte-kit/cloudflare",
 	"observability": {
 		"enabled": true
 	},
