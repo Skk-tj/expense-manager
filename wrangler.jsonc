@@ -2,7 +2,7 @@
 	"$schema": "node_modules/wrangler/config-schema.json",
 	"name": "expense-manager",
 	"compatibility_flags": ["nodejs_compat"],
-	"compatibility_date": "2025-03-21",
+	"compatibility_date": "2025-06-01",
 	"pages_build_output_dir": ".svelte-kit/cloudflare",
 	"observability": {
 		"enabled": true
@@ -10,13 +10,13 @@
 	"d1_databases": [
 		{
 			"binding": "DB",
-			"database_name": "expense",
-			"database_id": "0ac3c99b-0865-4893-bc60-dc48cc06d125",
+			"database_name": "expense-tracker",
+			"database_id": "4d4f56e0-2313-4ba2-af83-bf6b37efacfb",
 			"migrations_dir": "drizzle"
 		}
 	],
 	"vars": {
-		"NODE_VERSION": "23.10.0",
-		"PNPM_VERSION": "10.10.0"
+		"NODE_VERSION": "24.1.0",
+		"PNPM_VERSION": "10.11.0"
 	}
 }
