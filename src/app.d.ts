@@ -1,6 +1,6 @@
 // See https://svelte.dev/docs/kit/types#app.d.ts
 // for information about these interfaces
-import { D1Database } from '@cloudflare/workers-types';
+import type { Env } from '@sveltejs/kit/src/types/internal';
 
 declare global {
 	namespace App {
@@ -9,9 +9,7 @@ declare global {
 		// interface PageData {}
 		// interface PageState {}
 		interface Platform {
-			env: {
-				DB: D1Database;
-			};
+			env: Env;
 		}
 	}
 }
