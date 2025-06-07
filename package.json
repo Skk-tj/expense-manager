@@ -17,7 +17,8 @@
     "db:pull": "drizzle-kit pull",
     "db:migrate": "drizzle-kit migrate",
     "db:studio": "drizzle-kit studio",
-    "db:check": "drizzle-kit check"
+    "db:check": "drizzle-kit check",
+    "wrangler:dev": "vite build && wrangler dev .svelte-kit/cloudflare"
   },
   "devDependencies": {
     "@cloudflare/workers-types": "latest",
@@ -47,7 +48,7 @@
     "typescript": "^5.8.3",
     "typescript-eslint": "^8.33.1",
     "typescript-svelte-plugin": "latest",
-    "vite": "^6.3.5",
+    "vite": "npm:rolldown-vite@latest",
     "wrangler": "latest"
   },
   "dependencies": {
