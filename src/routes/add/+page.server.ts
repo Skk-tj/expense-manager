@@ -5,7 +5,7 @@ import { db } from '$lib/server/db';
 import { redirect } from '@sveltejs/kit';
 
 export const actions = {
-	default: async ({ request }) => {
+	default: async ({ request, platform }) => {
 		const data = await request.formData();
 
 		const date = data.get('date');
@@ -43,7 +43,7 @@ export const actions = {
 		};
 
 		const parsed = expenseInsertSchema.parse(expenseToInsert);
-		await db.insert(expenses).values(parsed);
+		await db(platform?.env.DB).insert(expenses).values(parsed);
 
 		redirect(303, '/transactions');
 	}
