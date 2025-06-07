@@ -4,13 +4,13 @@ import { db } from '$lib/server/db';
 import { expenses, expenseUpdateSchema } from '$lib/server/db/schema';
 import { eq } from 'drizzle-orm';
 
-export const POST: RequestHandler = async ({ request }) => {
+export const POST: RequestHandler = async ({ request, platform }) => {
 	const { id, isMyCard } = await request.json();
 
 	const toUpdate = { isMyCard: isMyCard };
 	const parsed = expenseUpdateSchema.parse(toUpdate);
 
-	await db.update(expenses).set(parsed).where(eq(expenses.id, id));
+	await db(platform?.env.DB).update(expenses).set(parsed).where(eq(expenses.id, id));
 
 	return json({ success: true });
 };

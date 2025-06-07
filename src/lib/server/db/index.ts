@@ -1,5 +1,5 @@
 import { drizzle } from 'drizzle-orm/libsql';
 import * as schema from './schema';
-import { env } from '$env/dynamic/private';
+import type { AnyD1Database } from 'drizzle-orm/d1';
 
-export const db = drizzle(env.DB!, { schema, logger: true });
+export const db = (database: AnyD1Database) => drizzle(database, { schema, logger: true });
