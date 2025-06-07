@@ -4,7 +4,11 @@ import { categories, expenses } from '$lib/server/db/schema';
 import { and, eq, sql } from 'drizzle-orm';
 import type { D1Database } from '@cloudflare/workers-types';
 
-export async function getSpendingOnMonthAndYear(d1: D1Database, month: number, year: number) {
+export async function getSpendingOnMonthAndYear(
+	d1: D1Database | undefined,
+	month: number,
+	year: number
+) {
 	const theSumThisMonth = await db(d1)
 		.select({ value: sum(expenses.price) })
 		.from(expenses)
@@ -18,7 +22,11 @@ export async function getSpendingOnMonthAndYear(d1: D1Database, month: number, y
 	return Number.parseFloat(theSumThisMonth[0]?.value ?? '0');
 }
 
-export async function getTotalForCategories(d1: D1Database, month: number, year: number) {
+export async function getTotalForCategories(
+	d1: D1Database | undefined,
+	month: number,
+	year: number
+) {
 	const byCategory = await db(d1)
 		.select({ category: categories.category, sum: sum(expenses.price) })
 		.from(expenses)
@@ -39,7 +47,7 @@ export async function getTotalForCategories(d1: D1Database, month: number, year:
 	});
 }
 
-export async function getMonthlyTrend(d1: D1Database) {
+export async function getMonthlyTrend(d1: D1Database | undefined) {
 	const trend = await db(d1)
 		.select({
 			month: sql`strftime('%m', transaction_date)`,
@@ -67,7 +75,7 @@ export async function getMonthlyTrend(d1: D1Database) {
 		});
 }
 
-export async function getMonthlyTrendByCategory(d1: D1Database) {
+export async function getMonthlyTrendByCategory(d1: D1Database | undefined) {
 	const trend = await db(d1)
 		.select({
 			month: sql`strftime('%m', transaction_date)`,

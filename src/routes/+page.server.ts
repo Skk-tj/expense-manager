@@ -11,10 +11,10 @@ export const load: PageServerLoad = async ({ platform }) => {
 	const thisYear = new Date().getFullYear();
 
 	return {
-		sum: await getSpendingOnMonthAndYear(platform?.env.db, thisMonth, thisYear),
-		sumLastMonth: await getSpendingOnMonthAndYear(platform?.env.db, thisMonth - 1, thisYear),
-		sumByCategories: await getTotalForCategories(platform?.env.db, thisMonth, thisYear),
-		sumTrend: await getMonthlyTrend(platform?.env.db),
-		sumTrendByCategory: await getMonthlyTrendByCategory(platform?.env.db)
+		sum: await getSpendingOnMonthAndYear(platform?.env.DB, thisMonth, thisYear),
+		sumLastMonth: await getSpendingOnMonthAndYear(platform?.env.DB, thisMonth - 1, thisYear),
+		sumByCategories: await getTotalForCategories(platform?.env.DB, thisMonth, thisYear),
+		sumTrend: await getMonthlyTrend(platform?.env.DB),
+		sumTrendByCategory: await getMonthlyTrendByCategory(platform?.env.DB)
 	};
 };
