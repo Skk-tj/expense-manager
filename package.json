@@ -18,14 +18,14 @@
     "db:migrate": "drizzle-kit migrate",
     "db:studio": "drizzle-kit studio",
     "db:check": "drizzle-kit check",
-    "wrangler:dev": "vite build && wrangler dev .svelte-kit/cloudflare"
+    "wrangler:dev": "vite build && wrangler dev"
   },
   "devDependencies": {
     "@cloudflare/workers-types": "latest",
     "@eslint/compat": "^1.2.9",
     "@eslint/js": "^9.28.0",
-    "@sveltejs/adapter-cloudflare": "^7.0.3",
-    "@sveltejs/kit": "^2.21.2",
+    "@sveltejs/adapter-cloudflare": "^7.0.4",
+    "@sveltejs/kit": "^2.21.3",
     "@sveltejs/vite-plugin-svelte": "^5.1.0",
     "@tailwindcss/language-server": "latest",
     "@tailwindcss/vite": "^4.1.8",
@@ -41,17 +41,18 @@
     "prettier": "^3.5.3",
     "prettier-plugin-svelte": "^3.4.0",
     "prettier-plugin-tailwindcss": "^0.6.12",
-    "svelte": "^5.33.17",
+    "svelte": "^5.33.18",
     "svelte-check": "^4.2.1",
     "svelte-language-server": "latest",
     "tailwindcss": "^4.1.8",
     "typescript": "^5.8.3",
     "typescript-eslint": "^8.33.1",
     "typescript-svelte-plugin": "latest",
-    "vite": "npm:rolldown-vite@latest",
+    "vite": "npm:rolldown-vite@^6.3.18",
     "wrangler": "latest"
   },
   "dependencies": {
+    "@auth/sveltekit": "^1.9.2",
     "@libsql/client": "^0.14.0",
     "@lucide/svelte": "^0.509.0",
     "@skeletonlabs/skeleton": "^3.1.3",
