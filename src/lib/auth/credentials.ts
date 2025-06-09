@@ -6,9 +6,14 @@ export const credentials = Credentials({
 		password: { label: 'Password', type: 'password', placeholder: '***********' }
 	},
 	authorize: async (credentials) => {
+		if (PASSWORD === undefined || PASSWORD === null || PASSWORD === '' || PASSWORD.length < 8) {
+			return null;
+		}
+
 		if (credentials?.password === PASSWORD) {
 			return { id: 'admin', name: 'Admin' };
 		}
+
 		return null;
 	}
 });
