@@ -5,6 +5,7 @@ export const { handle } = SvelteKitAuth(async (event) => {
 	const password = event.platform?.env.PASSWORD;
 
 	return {
-		providers: [credentials(password)]
+		providers: [credentials(password)],
+		trustHost: true
 	} satisfies SvelteKitAuthConfig;
 });
