@@ -1,7 +1,7 @@
 import { relations } from 'drizzle-orm';
-import { sqliteTable, text, integer, real } from 'drizzle-orm/sqlite-core';
+import { integer, real, sqliteTable, text } from 'drizzle-orm/sqlite-core';
 import { createInsertSchema, createSelectSchema, createUpdateSchema } from 'drizzle-zod';
-import { z } from 'zod';
+import { z } from 'zod/v4';
 
 export const categories = sqliteTable('categories', {
 	id: integer().primaryKey({ autoIncrement: true }).notNull(),
@@ -34,7 +34,7 @@ export const categoryToEntriesRelation = relations(categories, ({ one }) => ({
 
 export const expenseSelectSchema = createSelectSchema(expenses, {
 	id: z.number().int(),
-	transactionDate: z.string().date(),
+	transactionDate: z.iso.date(),
 	vendor: z.string(),
 	price: z.number().nonnegative(),
 	categoryId: z.number().int().gte(1).lte(9),
@@ -44,10 +44,7 @@ export const expenseSelectSchema = createSelectSchema(expenses, {
 });
 
 export const expenseWithCategorySchema = expenseSelectSchema.extend({
-	transactionDate: z
-		.string()
-		.date()
-		.transform((x) => new Date(`${x}T00:00:00.000`)),
+	transactionDate: z.iso.date().transform((x) => new Date(`${x}T00:00:00.000`)),
 	category: z.object({
 		id: z.number().int(),
 		category: z.string()
