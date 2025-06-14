@@ -44,7 +44,7 @@ export const expenseSelectSchema = createSelectSchema(expenses, {
 });
 
 export const expenseWithCategorySchema = expenseSelectSchema.extend({
-	transactionDate: z.iso.date().transform((x) => new Date(`${x}T00:00:00.000`)),
+	transactionDate: z.iso.date().transform((x) => new Date(`${x}T00:00:00.000-07:00`)),
 	category: z.object({
 		id: z.number().int(),
 		category: z.string()
