@@ -88,7 +88,7 @@
 	});
 </script>
 
-<div class="grid grid-cols-4 gap-2">
+<div class="grid grid-cols-3 lg:grid-cols-4 gap-2">
 	<Card title="Total Spent This Month">
 		{new Intl.NumberFormat('en-CA', { style: 'currency', currency: 'CAD' }).format(sum)}
 	</Card>
