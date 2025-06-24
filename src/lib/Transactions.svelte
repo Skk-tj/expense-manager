@@ -23,7 +23,7 @@
 
 	console.log(expense);
 
-	const gridOptions: GridOptions = {
+	const gridOptions: GridOptions<ExpenseWithCategory> = {
 		theme: themeQuartz.withPart(colorSchemeDark),
 		rowData: expense,
 		columnDefs: [
@@ -46,7 +46,11 @@
 				field: 'price',
 				filter: 'agNumberColumnFilter',
 				valueFormatter: (p) =>
-					new Intl.NumberFormat('en-CA', { style: 'currency', currency: 'CAD' }).format(p.value),
+					new Intl.NumberFormat('en-CA', {
+						style: 'currency',
+						currency: p.data?.currency,
+						currencyDisplay: 'code'
+					}).format(p.value),
 				cellDataType: 'number',
 				editable: true,
 				onCellValueChanged: onPriceCellEdited
@@ -59,15 +63,15 @@
 				valueFormatter: (p) => p.value.category,
 				valueParser: (p) => p.newValue,
 				cellClassRules: {
-					'bg-teal-500': (params) => params.data.category.id === 1,
-					'bg-green-500': (params) => params.data.category.id === 2,
-					'bg-blue-500': (params) => params.data.category.id === 3,
-					'bg-yellow-500': (params) => params.data.category.id === 4,
-					'bg-purple-500': (params) => params.data.category.id === 5,
-					'bg-pink-500': (params) => params.data.category.id === 6,
-					'bg-gray-500': (params) => params.data.category.id === 7,
-					'bg-orange-500': (params) => params.data.category.id === 8,
-					'bg-red-500': (params) => params.data.category.id === 9
+					'bg-teal-500': (params) => params.data?.category.id === 1,
+					'bg-green-500': (params) => params.data?.category.id === 2,
+					'bg-blue-500': (params) => params.data?.category.id === 3,
+					'bg-yellow-500': (params) => params.data?.category.id === 4,
+					'bg-purple-500': (params) => params.data?.category.id === 5,
+					'bg-pink-500': (params) => params.data?.category.id === 6,
+					'bg-gray-500': (params) => params.data?.category.id === 7,
+					'bg-orange-500': (params) => params.data?.category.id === 8,
+					'bg-red-500': (params) => params.data?.category.id === 9
 				},
 				editable: true,
 				cellEditor: 'agRichSelectCellEditor',
