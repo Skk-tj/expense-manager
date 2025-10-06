@@ -1,10 +1,10 @@
-import type { PageServerLoad } from './$types';
 import {
 	getMonthlyTrend,
 	getMonthlyTrendByCategory,
 	getSpendingOnMonthAndYear,
 	getTotalForCategories
 } from '$lib/server/queryService';
+import type { PageServerLoad } from './$types';
 
 export const load: PageServerLoad = async ({ platform }) => {
 	const thisMonth = new Date().getMonth() + 1;

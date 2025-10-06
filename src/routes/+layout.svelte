@@ -1,10 +1,10 @@
 <script lang="ts">
-	import '../app.css';
-	import TopBar from '$lib/TopBar.svelte';
-	import Navigation from '$lib/Navigation.svelte';
 	import type { Tabs } from '$lib';
-	import { Toaster } from '@skeletonlabs/skeleton-svelte';
+	import Navigation from '$lib/Navigation.svelte';
+	import TopBar from '$lib/TopBar.svelte';
 	import { toaster } from '$lib/toaster/toaster';
+	import '../app.css';
+	import { Toaster } from '@skeletonlabs/skeleton-svelte';
 
 	let { children } = $props();
 

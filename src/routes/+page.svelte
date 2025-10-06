@@ -1,6 +1,6 @@
 <script lang="ts">
-	import type { PageProps } from './$types';
 	import Summary from '$lib/Summary.svelte';
+	import type { PageProps } from './$types';
 
 	let props: PageProps = $props();
 </script>
