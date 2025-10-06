@@ -1,21 +1,6 @@
 import Credentials from '@auth/sveltekit/providers/credentials';
 
 export const credentials = (thePassword: string) => {
-	if (process.env.NODE_ENV === 'development') {
-		return Credentials({
-			credentials: {
-				password: { label: 'Password', type: 'password', placeholder: '***********' }
-			},
-			authorize: (credentials) => {
-				if (credentials?.password === 'password') {
-					return { id: 'admin', name: 'Admin' };
-				}
-
-				return null;
-			}
-		});
-	}
-
 	return Credentials({
 		credentials: {
 			password: { label: 'Password', type: 'password', placeholder: '***********' }
