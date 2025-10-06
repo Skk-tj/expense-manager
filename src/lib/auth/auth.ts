@@ -1,5 +1,5 @@
-import { SvelteKitAuth, type SvelteKitAuthConfig } from '@auth/sveltekit';
 import { credentials } from '$lib/auth/credentials';
+import { SvelteKitAuth, type SvelteKitAuthConfig } from '@auth/sveltekit';
 
 export const { handle } = SvelteKitAuth(async (event) => {
 	return {

@@ -1,6 +1,6 @@
 <script lang="ts">
-	import CircleDollarSign from '@lucide/svelte/icons/circle-dollar-sign';
 	import { Categories } from '$lib';
+	import CircleDollarSign from '@lucide/svelte/icons/circle-dollar-sign';
 
 	type FormData = {
 		date: string;
@@ -24,7 +24,7 @@
 </script>
 
 <form class="mx-auto flex flex-col items-end p-2" method="POST">
-	<div class="grid grid-cols-2 gap-2">
+	<div class="grid grid-cols-1 gap-4 lg:grid-cols-2">
 		<div>
 			<label class="label" for="date">
 				<span class="label-text">Date</span>
@@ -90,7 +90,7 @@
 			</select>
 		</div>
 
-		<div class="col-span-2">
+		<div class="lg:col-span-2">
 			<label for="extra" class="label">
 				<span class="label-text">Extra Info</span>
 			</label>
@@ -104,7 +104,7 @@
 			></textarea>
 		</div>
 
-		<div class="col-span-2 flex items-center space-x-2">
+		<div class="flex items-center space-x-2 lg:col-span-2">
 			<input
 				type="checkbox"
 				id="is-my-card"

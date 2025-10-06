@@ -1,7 +1,7 @@
-import { json } from '@sveltejs/kit';
-import type { RequestHandler } from './$types';
 import { db } from '$lib/server/db';
 import { expenses, expenseUpdateSchema } from '$lib/server/db/schema';
+import type { RequestHandler } from './$types';
+import { json } from '@sveltejs/kit';
 import { eq } from 'drizzle-orm';
 
 export const POST: RequestHandler = async ({ request, platform }) => {
