@@ -29,7 +29,15 @@
 			<label class="label" for="date">
 				<span class="label-text">Date</span>
 			</label>
-			<input type="date" class="input" id="date" name="date" bind:value={formData.date} required />
+			<input
+				type="date"
+				class="input"
+				id="date"
+				name="date"
+				bind:value={formData.date}
+				required
+				enterkeyhint="next"
+			/>
 		</div>
 
 		<div>
@@ -42,6 +50,9 @@
 				id="vendor"
 				name="vendor"
 				required
+				placeholder="Vendor"
+				enterkeyhint="next"
+				autocomplete="off"
 				bind:value={formData.vendor}
 			/>
 		</div>
@@ -60,10 +71,12 @@
 					type="number"
 					placeholder="Amount"
 					id="amount"
-					value={formData.amount}
+					bind:value={formData.amount}
 					name="amount"
 					required
 					step="0.01"
+					inputmode="decimal"
+					enterkeyhint="next"
 				/>
 
 				<select class="ig-select" bind:value={formData.currency} name="currency">
@@ -82,6 +95,7 @@
 				id="categories-select"
 				name="categories"
 				bind:value={formData.categoryId}
+				enterkeyhint="next"
 				class="select rounded-container"
 			>
 				{#each Object.entries(Categories) as [categoryId, category] (categoryId)}
@@ -101,6 +115,7 @@
 				class="textarea"
 				name="extraInfo"
 				bind:value={formData.extraInfo}
+				enterkeyhint="next"
 			></textarea>
 		</div>
 
@@ -110,6 +125,7 @@
 				id="is-my-card"
 				class="checkbox"
 				name="isMyCard"
+				enterkeyhint="next"
 				bind:checked={formData.isMyCard}
 			/>
 			<label for="is-my-card" class="label">

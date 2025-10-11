@@ -1,4 +1,3 @@
-// place files you want to import through the `$lib` alias in this folder.
 export type Tabs = 'transactions' | 'summary' | 'add';
 
 export const Categories = {

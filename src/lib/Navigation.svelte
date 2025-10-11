@@ -1,9 +1,9 @@
 <script lang="ts">
-	import { Navigation } from '@skeletonlabs/skeleton-svelte';
-	import CreditCard from '@lucide/svelte/icons/credit-card';
-	import CircleDollarSign from '@lucide/svelte/icons/circle-dollar-sign';
-	import Plus from '@lucide/svelte/icons/plus';
 	import type { Tabs } from '$lib';
+	import CircleDollarSign from '@lucide/svelte/icons/circle-dollar-sign';
+	import CreditCard from '@lucide/svelte/icons/credit-card';
+	import Plus from '@lucide/svelte/icons/plus';
+	import { Navigation } from '@skeletonlabs/skeleton-svelte';
 
 	interface Props {
 		tab: Tabs;
