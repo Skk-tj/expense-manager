@@ -1,6 +1,7 @@
 import { relations } from 'drizzle-orm';
 import { integer, real, sqliteTable, text } from 'drizzle-orm/sqlite-core';
 import { createInsertSchema, createSelectSchema, createUpdateSchema } from 'drizzle-zod';
+import { DateTime } from 'luxon';
 import { z } from 'zod/v4';
 
 export const categories = sqliteTable('categories', {
@@ -44,7 +45,14 @@ export const expenseSelectSchema = createSelectSchema(expenses, {
 });
 
 export const expenseWithCategorySchema = expenseSelectSchema.extend({
-	transactionDate: z.iso.date().transform((x) => new Date(`${x}T00:00:00.000-07:00`)),
+	transactionDate: z.iso.date().transform((x) => {
+		const [y, m, d] = x.split('-').map(Number);
+
+		return DateTime.fromObject(
+			{ year: y, month: m, day: d },
+			{ zone: 'America/Vancouver' }
+		).toJSDate();
+	}),
 	category: z.object({
 		id: z.number().int(),
 		category: z.string()
