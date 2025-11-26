@@ -30,6 +30,7 @@
     "@tailwindcss/language-server": "latest",
     "@tailwindcss/vite": "^4.1.17",
     "@trivago/prettier-plugin-sort-imports": "latest",
+    "@types/luxon": "^3.7.1",
     "@types/node": "^24.10.1",
     "@typescript-eslint/eslint-plugin": "^8.48.0",
     "@typescript-eslint/parser": "^8.48.0",
@@ -65,6 +66,7 @@
     "ag-grid-enterprise": "^34.3.1",
     "drizzle-orm": "^0.44.7",
     "drizzle-zod": "^0.8.3",
+    "luxon": "^3.7.2",
     "zod": "^4.1.13"
   },
   "pnpm": {
