@@ -1,7 +1,7 @@
 <script lang="ts">
 	import Card from '$lib/Card.svelte';
-	import { type AgChartOptions, AgCharts } from 'ag-charts-community';
 	import { Categories } from '$lib/index';
+	import { type AgChartOptions, AgCharts } from 'ag-charts-community';
 
 	interface Props {
 		sum: number;
@@ -103,7 +103,7 @@
 				<thead>
 					<tr>
 						<th>Category</th>
-						<th class="!text-right">Amount</th>
+						<th class="text-right!">Amount</th>
 					</tr>
 				</thead>
 				<tbody class="[&>tr]:hover:preset-tonal-primary">

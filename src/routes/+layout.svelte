@@ -4,7 +4,7 @@
 	import TopBar from '$lib/TopBar.svelte';
 	import { toaster } from '$lib/toaster/toaster';
 	import '../app.css';
-	import { Toaster } from '@skeletonlabs/skeleton-svelte';
+	import { Toast } from '@skeletonlabs/skeleton-svelte';
 
 	let { children } = $props();
 
@@ -20,4 +20,14 @@
 	{@render children()}
 </main>
 
-<Toaster {toaster}></Toaster>
+<Toast.Group {toaster}>
+	{#snippet children(toast)}
+		<Toast {toast}>
+			<Toast.Message>
+				<Toast.Title>{toast.title}</Toast.Title>
+				<Toast.Description>{toast.description}</Toast.Description>
+			</Toast.Message>
+			<Toast.CloseTrigger />
+		</Toast>
+	{/snippet}
+</Toast.Group>
