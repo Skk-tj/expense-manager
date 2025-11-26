@@ -10,30 +10,37 @@
 	}
 
 	let { tab = $bindable() }: Props = $props();
+
+	const anchorRail =
+		'btn hover:preset-tonal aspect-square w-full max-w-[84px] flex flex-col items-center gap-0.5';
 </script>
 
-<div class="card border-surface-100-900 grid h-full grid-cols-[auto_1fr] border-[1px]">
+<div class="border-surface-200-800 grid h-full grid-cols-[auto_1fr]">
 	<!-- Component -->
-	<Navigation.Rail
-		value={tab}
-		onValueChange={(newValue) => {
-			if (newValue === 'summary' || newValue === 'transactions' || newValue === 'add') {
-				tab = newValue;
-			}
-		}}
-	>
-		{#snippet tiles()}
-			<Navigation.Tile id="summary" label="Summary" href="/">
-				<CircleDollarSign />
-			</Navigation.Tile>
+	<Navigation layout="rail">
+		<Navigation.Content>
+			<Navigation.Group>
+				<Navigation.Menu>
+					<a class={anchorRail} href="/" onclick={() => (tab = 'summary')}>
+						<CircleDollarSign />
+						<span class="text-xs">Summary</span>
+					</a>
+				</Navigation.Menu>
 
-			<Navigation.Tile id="transactions" label="Transactions" href="/transactions">
-				<CreditCard />
-			</Navigation.Tile>
+				<Navigation.Menu>
+					<a class={anchorRail} href="/transactions" onclick={() => (tab = 'transactions')}>
+						<CreditCard />
+						<span class="text-xs">Transactions</span>
+					</a>
+				</Navigation.Menu>
 
-			<Navigation.Tile id="add" label="Add" href="/add">
-				<Plus />
-			</Navigation.Tile>
-		{/snippet}
-	</Navigation.Rail>
+				<Navigation.Menu>
+					<a class={anchorRail} href="/add" onclick={() => (tab = 'add')}>
+						<Plus />
+						<span class="text-xs">Add</span>
+					</a>
+				</Navigation.Menu>
+			</Navigation.Group>
+		</Navigation.Content>
+	</Navigation>
 </div>

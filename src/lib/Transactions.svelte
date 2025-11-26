@@ -1,4 +1,7 @@
 <script lang="ts">
+	import { Categories } from '$lib/index';
+	import { type ExpenseWithCategory } from '$lib/server/db/schema';
+	import { toaster } from '$lib/toaster/toaster';
 	import {
 		AllCommunityModule,
 		colorSchemeDark,
@@ -11,17 +14,12 @@
 	} from 'ag-grid-community';
 	import { RichSelectModule, SetFilterModule } from 'ag-grid-enterprise';
 	import { onMount } from 'svelte';
-	import { type ExpenseWithCategory } from '$lib/server/db/schema';
-	import { Categories } from '$lib/index';
-	import { toaster } from '$lib/toaster/toaster';
 
 	interface Props {
 		expense: ExpenseWithCategory[];
 	}
 
 	let { expense }: Props = $props();
-
-	console.log(expense);
 
 	const gridOptions: GridOptions<ExpenseWithCategory> = {
 		theme: themeQuartz.withPart(colorSchemeDark),

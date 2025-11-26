@@ -9,7 +9,7 @@ export const actions = {
 		const data = await request.formData();
 
 		const date = data.get('date');
-		const dateParse = z.string().date('Date is invalid').parse(date);
+		const dateParse = z.iso.date('Date is invalid').parse(date);
 
 		const amount = data.get('amount');
 		const amountParse = z.string().parse(amount);

@@ -7,7 +7,7 @@
 		"directory": ".svelte-kit/cloudflare"
 	},
 	"compatibility_flags": ["nodejs_compat"],
-	"compatibility_date": "2025-08-03",
+	"compatibility_date": "2025-11-12",
 	"observability": {
 		"enabled": true
 	},
@@ -20,7 +20,7 @@
 		}
 	],
 	"vars": {
-		"NODE_VERSION": "24.5.0",
-		"PNPM_VERSION": "10.14.0"
+		"NODE_VERSION": "25.2.1",
+		"PNPM_VERSION": "10.23.0"
 	}
 }
