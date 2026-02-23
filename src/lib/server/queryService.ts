@@ -1,8 +1,8 @@
 import { db } from '$lib/server/db';
-import { sum } from 'drizzle-orm/sql/functions/aggregate';
 import { categories, expenses } from '$lib/server/db/schema';
-import { and, eq, sql } from 'drizzle-orm';
 import type { D1Database } from '@cloudflare/workers-types';
+import { and, eq, sql } from 'drizzle-orm';
+import { sum } from 'drizzle-orm/sql/functions/aggregate';
 
 export async function getSpendingOnMonthAndYear(
 	d1: D1Database | undefined,
