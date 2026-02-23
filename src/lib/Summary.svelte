@@ -22,72 +22,72 @@
 	let pieChartElement: HTMLDivElement | undefined = $state();
 	let lineChartElement: HTMLDivElement | undefined = $state();
 
-	const options: AgChartOptions = {
-		container: pieChartElement,
-		data: sumByCategories,
-		title: {
-			text: 'By Category'
-		},
-		series: [
-			{
-				type: 'pie',
-				angleKey: 'sum',
-				legendItemKey: 'category',
-				sectorLabelKey: 'sum',
-				sectorLabel: {
-					color: 'white',
-					fontWeight: 'bold',
-					formatter: (params) =>
-						new Intl.NumberFormat('en-CA', { style: 'currency', currency: 'CAD' }).format(
-							params.value
-						)
-				}
-			}
-		],
-		theme: 'ag-default-dark'
-	};
-
-	const options2: AgChartOptions = {
-		container: lineChartElement,
-		data: sumTrendByCategory,
-		title: {
-			text: 'Trend'
-		},
-		series: Object.entries(Categories).map(([key, value]) => {
-			return {
-				type: 'bar',
-				xKey: 'time',
-				yKey: key,
-				yName: value,
-				stacked: true
-			};
-		}),
-		axes: {
-			x: {
-				type: 'grouped-category',
-				position: 'bottom',
-				label: { rotation: 0 },
-				depthOptions: [{}, { label: { fontWeight: 'bold' } }]
-			},
-			y: {
-				type: 'number',
-				position: 'left',
-				label: {
-					formatter: (params) =>
-						new Intl.NumberFormat('en-CA', { style: 'currency', currency: 'CAD' }).format(
-							params.value
-						)
-				}
-			}
-		},
-		theme: 'ag-default-dark'
-	};
-
 	onMount(() => {
 		ModuleRegistry.registerModules([AllCommunityModule]);
 	});
 
 	$effect(() => {
+		const options: AgChartOptions = {
+			container: pieChartElement,
+			data: sumByCategories,
+			title: {
+				text: 'By Category'
+			},
+			series: [
+				{
+					type: 'pie',
+					angleKey: 'sum',
+					legendItemKey: 'category',
+					sectorLabelKey: 'sum',
+					sectorLabel: {
+						color: 'white',
+						fontWeight: 'bold',
+						formatter: (params) =>
+							new Intl.NumberFormat('en-CA', { style: 'currency', currency: 'CAD' }).format(
+								params.value
+							)
+					}
+				}
+			],
+			theme: 'ag-default-dark'
+		};
+
+		const options2: AgChartOptions = {
+			container: lineChartElement,
+			data: sumTrendByCategory,
+			title: {
+				text: 'Trend'
+			},
+			series: Object.entries(Categories).map(([key, value]) => {
+				return {
+					type: 'bar',
+					xKey: 'time',
+					yKey: key,
+					yName: value,
+					stacked: true
+				};
+			}),
+			axes: {
+				x: {
+					type: 'grouped-category',
+					position: 'bottom',
+					label: { rotation: 0 },
+					depthOptions: [{}, { label: { fontWeight: 'bold' } }]
+				},
+				y: {
+					type: 'number',
+					position: 'left',
+					label: {
+						formatter: (params) =>
+							new Intl.NumberFormat('en-CA', { style: 'currency', currency: 'CAD' }).format(
+								params.value
+							)
+					}
+				}
+			},
+			theme: 'ag-default-dark'
+		};
+
 		if (pieChartElement !== undefined) {
 			AgCharts.create(options);
 		}
