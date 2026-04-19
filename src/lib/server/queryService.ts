@@ -71,7 +71,7 @@ export async function getMonthlyTrend(d1: D1Database | undefined) {
 				return a.date[0] - b.date[0];
 			}
 			// If years are equal, compare months
-			return a.date[1] - a.date[1];
+			return a.date[1] - b.date[1];
 		});
 }
 
@@ -109,6 +109,6 @@ export async function getMonthlyTrendByCategory(d1: D1Database | undefined) {
 			return a.time[0] - b.time[0];
 		}
 		// If years are equal, compare months
-		return a.time[1] - a.time[1];
+		return a.time[1] - b.time[1];
 	});
 }

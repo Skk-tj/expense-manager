@@ -5,7 +5,10 @@ import { json } from '@sveltejs/kit';
 import { eq } from 'drizzle-orm';
 
 export const POST: RequestHandler = async ({ request, platform }) => {
-	const { id, transactionDate } = await request.json();
+	const { id, transactionDate } = (await request.json()) as {
+		id: number;
+		transactionDate: string;
+	};
 
 	const toUpdate = { transactionDate: transactionDate };
 	const parsed = expenseUpdateSchema.parse(toUpdate);

@@ -11,6 +11,8 @@ declare global {
 		interface Platform {
 			env: {
 				DB: D1Database;
+				PASSWORD?: string;
+				AUTH_SECRET?: string;
 			};
 		}
 	}

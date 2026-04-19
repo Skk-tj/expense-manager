@@ -10,7 +10,7 @@
 </script>
 
 <AppBar>
-	{#snippet headline()}
+	<AppBar.Headline>
 		{#if tab === 'transactions'}
 			<h2 class="h2">Transactions</h2>
 		{:else if tab === 'summary'}
@@ -18,5 +18,5 @@
 		{:else if tab === 'add'}
 			<h2 class="h2">Add</h2>
 		{/if}
-	{/snippet}
+	</AppBar.Headline>
 </AppBar>
