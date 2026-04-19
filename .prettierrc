@@ -3,8 +3,12 @@
 	"singleQuote": true,
 	"trailingComma": "none",
 	"printWidth": 100,
-    "importOrderSeparation": true,
-	"plugins": ["prettier-plugin-svelte", "@trivago/prettier-plugin-sort-imports","prettier-plugin-tailwindcss"],
+	"importOrderSeparation": true,
+	"plugins": [
+		"prettier-plugin-svelte",
+		"@trivago/prettier-plugin-sort-imports",
+		"prettier-plugin-tailwindcss"
+	],
 	"overrides": [
 		{
 			"files": "*.svelte",
