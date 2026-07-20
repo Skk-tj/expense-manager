@@ -142,15 +142,7 @@
 		]
 	});
 
-	onMount(() => {
-		// Register all Community features
-		ModuleRegistry.registerModules([
-			AllCommunityModule,
-			RichSelectModule,
-			SetFilterModule,
-			ServerSideRowModelModule
-		]);
-	});
+
 
 	async function onVendorCellEdited(
 		event: NewValueParams<ExpenseWithCategory, string>
@@ -313,6 +305,12 @@
 <div
 	class="h-full"
 	{@attach (node) => {
+		ModuleRegistry.registerModules([
+			AllCommunityModule,
+			RichSelectModule,
+			SetFilterModule,
+			ServerSideRowModelModule
+		]);
 		const api = createGrid(node, gridOptions);
 		return () => api.destroy();
 	}}
