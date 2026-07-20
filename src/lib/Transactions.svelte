@@ -34,7 +34,11 @@
 					params.fail();
 				}
 				const data = await response.json();
-				params.success({ rowData: data.rows, rowCount: data.lastRow });
+				const mappedRows = data.rows.map((row: any) => ({
+					...row,
+					transactionDate: new Date(row.transactionDate + 'T12:00:00')
+				}));
+				params.success({ rowData: mappedRows, rowCount: data.lastRow });
 			}
 		},
 		columnDefs: [
@@ -252,9 +256,13 @@
 			throw new Error('Failed to update transactionDate');
 		}
 
+		const y = newValue.getFullYear();
+		const m = String(newValue.getMonth() + 1).padStart(2, '0');
+		const d = String(newValue.getDate()).padStart(2, '0');
+
 		const response = await fetch(`/api/transactions/transaction-date`, {
 			method: 'POST',
-			body: JSON.stringify({ id, transactionDate: newValue.toISOString().slice(0, 10) }),
+			body: JSON.stringify({ id, transactionDate: `${y}-${m}-${d}` }),
 			headers: {
 				'Content-Type': 'application/json'
 			}
