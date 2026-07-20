@@ -1,8 +1,41 @@
 import { db } from '$lib/server/db';
 import { type Expense, expenseInsertSchema, expenses } from '$lib/server/db/schema';
-import type { Actions } from './$types';
 import { fail, redirect } from '@sveltejs/kit';
 import { z } from 'zod';
+
+import type { Actions, PageServerLoad } from './$types';
+
+import { desc } from 'drizzle-orm';
+
+export const load: PageServerLoad = async ({ platform }) => {
+	const allExpenses = await db(platform?.env.DB)
+		.select()
+		.from(expenses)
+		.orderBy(desc(expenses.transactionDate));
+
+	const vendorAutofill: Record<string, any[]> = {};
+	
+	for (const exp of allExpenses) {
+		if (!vendorAutofill[exp.vendor]) {
+			vendorAutofill[exp.vendor] = [];
+		}
+		if (vendorAutofill[exp.vendor].length < 5) {
+			vendorAutofill[exp.vendor].push({
+				date: exp.transactionDate,
+				amount: exp.price,
+				categoryId: String(exp.categoryId),
+				currency: exp.currency,
+				isMyCard: exp.isMyCard,
+				extraInfo: exp.extraInfo ?? ''
+			});
+		}
+	}
+
+	return {
+		vendors: Object.keys(vendorAutofill).sort(),
+		vendorAutofill
+	};
+};
 
 export const actions = {
 	default: async ({ request, platform }) => {

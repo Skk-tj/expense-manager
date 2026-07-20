@@ -9,7 +9,7 @@
 		tab: Tabs;
 	}
 
-	let { tab = $bindable() }: Props = $props();
+	let { tab }: Props = $props();
 
 	const anchorRail =
 		'btn hover:preset-tonal aspect-square w-full max-w-[84px] flex flex-col items-center gap-0.5';
@@ -21,21 +21,21 @@
 		<Navigation.Content>
 			<Navigation.Group>
 				<Navigation.Menu>
-					<a class={anchorRail} href="/" onclick={() => (tab = 'summary')}>
+					<a class={anchorRail} href="/">
 						<CircleDollarSign />
 						<span class="text-xs">Summary</span>
 					</a>
 				</Navigation.Menu>
 
 				<Navigation.Menu>
-					<a class={anchorRail} href="/transactions" onclick={() => (tab = 'transactions')}>
+					<a class={anchorRail} href="/transactions">
 						<CreditCard />
 						<span class="text-xs">Transactions</span>
 					</a>
 				</Navigation.Menu>
 
 				<Navigation.Menu>
-					<a class={anchorRail} href="/add" onclick={() => (tab = 'add')}>
+					<a class={anchorRail} href="/add">
 						<Plus />
 						<span class="text-xs">Add</span>
 					</a>

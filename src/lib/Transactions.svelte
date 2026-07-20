@@ -21,7 +21,7 @@
 
 	let { expense }: Props = $props();
 
-	const gridOptions: GridOptions<ExpenseWithCategory> = {
+	const gridOptions: GridOptions<ExpenseWithCategory> = $derived({
 		theme: themeQuartz.withPart(colorSchemeDark),
 		rowData: expense,
 		columnDefs: [
@@ -97,21 +97,41 @@
 				cellDataType: 'text',
 				editable: true,
 				onCellValueChanged: onExtraInfoCellEdited
+			},
+			{
+				headerName: 'Actions',
+				cellRenderer: (params: any) => {
+					if (!params.data) return '';
+					const button = document.createElement('button');
+					button.innerText = 'Delete';
+					button.className = 'btn preset-filled-error-500 py-1 px-3 text-xs rounded-md font-bold';
+					button.onclick = async () => {
+						if (!confirm('Are you sure you want to delete this expense?')) return;
+						const response = await fetch('/api/transactions/delete', {
+							method: 'DELETE',
+							body: JSON.stringify({ id: params.data.id }),
+							headers: { 'Content-Type': 'application/json' }
+						});
+						if (response.ok) {
+							params.api.applyTransaction({ remove: [params.data] });
+							toaster.success({ title: 'Expense deleted' });
+						} else {
+							toaster.error({ title: 'Failed to delete expense' });
+						}
+					};
+					return button;
+				},
+				editable: false,
+				filter: false,
+				sortable: false,
+				maxWidth: 120
 			}
 		]
-	};
-
-	let tableElement: HTMLDivElement | undefined = $state();
+	});
 
 	onMount(() => {
 		// Register all Community features
 		ModuleRegistry.registerModules([AllCommunityModule, RichSelectModule, SetFilterModule]);
-	});
-
-	$effect(() => {
-		if (tableElement !== undefined) {
-			createGrid(tableElement, gridOptions);
-		}
 	});
 
 	async function onVendorCellEdited(
@@ -272,4 +292,10 @@
 	}
 </script>
 
-<div class="h-full" bind:this={tableElement}></div>
+<div
+	class="h-full"
+	{@attach (node) => {
+		const api = createGrid(node, gridOptions);
+		return () => api.destroy();
+	}}
+></div>

@@ -6,7 +6,13 @@ const config = {
 	preprocess: vitePreprocess(),
 	kit: {
 		adapter: adapter({
-			config: 'wrangler.jsonc'
+			config: 'wrangler.jsonc',
+			platformProxy: {
+				configPath: 'wrangler.jsonc',
+				environment: undefined,
+				experimentalJsonConfig: true,
+				persist: true
+			}
 		})
 	}
 };

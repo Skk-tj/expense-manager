@@ -2,6 +2,7 @@
 	import Card from '$lib/Card.svelte';
 	import { Categories } from '$lib/index';
 	import {
+		type AgChartInstance,
 		type AgChartOptions,
 		AgCharts,
 		AllCommunityModule,
@@ -42,7 +43,7 @@
 					sectorLabel: {
 						color: 'white',
 						fontWeight: 'bold',
-						formatter: (params) =>
+						formatter: (params: { value: number }) =>
 							new Intl.NumberFormat('en-CA', { style: 'currency', currency: 'CAD' }).format(
 								params.value
 							)
@@ -78,7 +79,7 @@
 					type: 'number',
 					position: 'left',
 					label: {
-						formatter: (params) =>
+						formatter: (params: { value: number }) =>
 							new Intl.NumberFormat('en-CA', { style: 'currency', currency: 'CAD' }).format(
 								params.value
 							)
@@ -88,13 +89,25 @@
 			theme: 'ag-default-dark'
 		};
 
+		let pieChart: AgChartInstance | undefined;
+		let lineChart: AgChartInstance | undefined;
+
 		if (pieChartElement !== undefined) {
-			AgCharts.create(options);
+			pieChart = AgCharts.create(options);
 		}
 
 		if (lineChartElement !== undefined) {
-			AgCharts.create(options2);
+			lineChart = AgCharts.create(options2);
 		}
+
+		return () => {
+			if (pieChart) {
+				pieChart.destroy();
+			}
+			if (lineChart) {
+				lineChart.destroy();
+			}
+		};
 	});
 </script>
 

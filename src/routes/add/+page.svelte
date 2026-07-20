@@ -1,10 +1,12 @@
 <script lang="ts">
+	import { enhance } from '$app/forms';
 	import { Categories } from '$lib';
 	import CircleDollarSign from '@lucide/svelte/icons/circle-dollar-sign';
-	import { enhance } from '$app/forms';
-	import type { ActionData } from './$types';
+	import { fly } from 'svelte/transition';
 
-	let { form }: { form: ActionData } = $props();
+	import type { ActionData, PageData } from './$types';
+
+	let { form, data }: { form: ActionData; data: PageData } = $props();
 
 	type FormData = {
 		date: string;
@@ -25,6 +27,16 @@
 		vendor: form?.data?.vendor ?? '',
 		categoryId: String(form?.data?.categoryId ?? '1')
 	});
+
+	let suggestions = $derived(data.vendorAutofill?.[formData.vendor] ?? []);
+
+	function autofill(suggestion: any) {
+		formData.amount = suggestion.amount;
+		formData.currency = suggestion.currency;
+		formData.categoryId = suggestion.categoryId;
+		formData.isMyCard = suggestion.isMyCard;
+		formData.extraInfo = suggestion.extraInfo;
+	}
 </script>
 
 <form class="mx-auto flex flex-col items-end p-2" method="POST" use:enhance>
@@ -60,8 +72,14 @@
 				placeholder="Vendor"
 				enterkeyhint="next"
 				autocomplete="off"
+				list="vendor-options"
 				bind:value={formData.vendor}
 			/>
+			<datalist id="vendor-options">
+				{#each data.vendors as vendor}
+					<option value={vendor} />
+				{/each}
+			</datalist>
 			{#if form?.errors?.vendor}
 				<span class="text-error-500 text-sm">{form.errors.vendor[0]}</span>
 			{/if}
@@ -71,13 +89,13 @@
 			<label class="label" for="amount">
 				<span class="label-text">Amount</span>
 			</label>
-			<div class="input-group grid-cols-[auto_1fr_auto]">
-				<div class="ig-cell preset-tonal">
-					<CircleDollarSign size={16} />
-				</div>
+			<div class="field-group grid-cols-[auto_1fr_auto]">
+				<span class="label label-text preset-tonal">
+					<CircleDollarSign />
+				</span>
 
 				<input
-					class="ig-input {form?.errors?.price ? 'input-error' : ''}"
+					class="input {form?.errors?.price ? 'input-error' : ''}"
 					type="number"
 					placeholder="Amount"
 					id="amount"
@@ -89,7 +107,7 @@
 					enterkeyhint="next"
 				/>
 
-				<select class="ig-select" bind:value={formData.currency} name="currency">
+				<select class="select" bind:value={formData.currency} name="currency">
 					<option>CAD</option>
 					<option>USD</option>
 					<option>JPY</option>
@@ -131,8 +149,7 @@
 				class="textarea {form?.errors?.extraInfo ? 'textarea-error' : ''}"
 				name="extraInfo"
 				bind:value={formData.extraInfo}
-				enterkeyhint="next"
-			></textarea>
+				enterkeyhint="next"></textarea>
 			{#if form?.errors?.extraInfo}
 				<span class="text-error-500 text-sm">{form.errors.extraInfo[0]}</span>
 			{/if}
@@ -153,5 +170,26 @@
 		</div>
 	</div>
 
-	<button type="submit" class="btn preset-outlined-primary-500"> Submit </button>
+	<button type="submit" class="btn preset-outlined-primary-500 mt-4"> Submit </button>
+
+	{#if suggestions.length > 0}
+		<div transition:fly|global={{ y: 10, duration: 200 }} class="mt-4 w-full p-4 border border-surface-200-800 rounded-container flex flex-col gap-3 bg-surface-50-950">
+			<span class="opacity-80 text-sm">Recent entries for <strong>{formData.vendor}</strong>:</span>
+			<div class="flex flex-col gap-2">
+				{#each suggestions as suggestion, i (i)}
+					<button 
+						type="button" 
+						transition:fly|global={{ y: 20, duration: 300, delay: 100 + i * 100 }}
+						class="btn preset-tonal-secondary flex justify-between items-center p-2 text-sm w-full"
+						onclick={() => autofill(suggestion)}
+					>
+						<span>
+							{suggestion.date} &middot; {Categories[suggestion.categoryId as keyof typeof Categories]} &middot; {suggestion.currency} {suggestion.amount}
+						</span>
+						<span class="opacity-70 text-xs font-semibold">Autofill</span>
+					</button>
+				{/each}
+			</div>
+		</div>
+	{/if}
 </form>
