@@ -52,9 +52,17 @@
 			},
 			{
 				field: 'vendor',
-				filter: 'agTextColumnFilter',
+				filter: 'agSetColumnFilter',
 				editable: true,
-				onCellValueChanged: onVendorCellEdited
+				onCellValueChanged: onVendorCellEdited,
+				filterParams: {
+					values: (params: any) => {
+						fetch('/api/transactions/vendors')
+							.then((res) => res.json())
+							.then((data) => params.success(data))
+							.catch(() => params.fail());
+					}
+				}
 			},
 			{ field: 'currency', cellDataType: 'text', filter: 'agTextColumnFilter' },
 			{
