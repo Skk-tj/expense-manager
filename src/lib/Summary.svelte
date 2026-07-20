@@ -14,17 +14,27 @@
 		sum: number;
 		lastMonthSum: number;
 		sumByCategories: { category: string; sum: number }[];
-		sumTrend: { date: [number, number]; sum: number }[];
-		sumTrendByCategory: { time: [number, number]; [key: string]: number | [number, number] }[];
 	}
 
-	let { sum, lastMonthSum, sumByCategories, sumTrend, sumTrendByCategory }: Props = $props();
+	let { sum, lastMonthSum, sumByCategories }: Props = $props();
+
+	let sumTrend: { date: [number, number]; sum: number }[] = $state([]);
+	let sumTrendByCategory: { time: [number, number]; [key: string]: number | [number, number] }[] =
+		$state([]);
 
 	let pieChartElement: HTMLDivElement | undefined = $state();
 	let lineChartElement: HTMLDivElement | undefined = $state();
 
-	onMount(() => {
+	onMount(async () => {
 		ModuleRegistry.registerModules([AllCommunityModule]);
+
+		Promise.all([
+			fetch('/api/reports/trend').then((res) => res.json()),
+			fetch('/api/reports/trend-by-category').then((res) => res.json())
+		]).then(([trendData, categoryTrendData]) => {
+			sumTrend = trendData.sumTrend;
+			sumTrendByCategory = categoryTrendData.sumTrendByCategory;
+		});
 	});
 
 	$effect(() => {

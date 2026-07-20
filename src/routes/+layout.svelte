@@ -1,21 +1,22 @@
 <script lang="ts">
+	import { page } from '$app/state';
 	import type { Tabs } from '$lib';
 	import Navigation from '$lib/Navigation.svelte';
 	import { toaster } from '$lib/toaster/toaster';
-	import TopBar from '$lib/TopBar.svelte';
 
 	import '../app.css';
+	import TopBar from '$lib/TopBar.svelte';
 	import { Toast } from '@skeletonlabs/skeleton-svelte';
 	import { type Snippet } from 'svelte';
-
-	import { page } from '$app/state';
 
 	let { children }: { children?: Snippet<[]> } = $props();
 
 	let currentTab: Tabs = $derived(
-		page.url.pathname.startsWith('/transactions') ? 'transactions' :
-		page.url.pathname.startsWith('/add') ? 'add' : 
-		'summary'
+		page.url.pathname.startsWith('/transactions')
+			? 'transactions'
+			: page.url.pathname.startsWith('/add')
+				? 'add'
+				: 'summary'
 	);
 </script>
 

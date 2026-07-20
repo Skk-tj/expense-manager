@@ -12,18 +12,31 @@
 		type NewValueParams,
 		themeQuartz
 	} from 'ag-grid-community';
-	import { RichSelectModule, SetFilterModule } from 'ag-grid-enterprise';
+	import { ServerSideRowModelModule, RichSelectModule, SetFilterModule } from 'ag-grid-enterprise';
 	import { onMount } from 'svelte';
-
-	interface Props {
-		expense: ExpenseWithCategory[];
-	}
-
-	let { expense }: Props = $props();
 
 	const gridOptions: GridOptions<ExpenseWithCategory> = $derived({
 		theme: themeQuartz.withPart(colorSchemeDark),
-		rowData: expense,
+		rowModelType: 'serverSide',
+		pagination: true,
+		paginationPageSize: 50,
+		cacheBlockSize: 50,
+		serverSideDatasource: {
+			getRows: async (params) => {
+				const response = await fetch('/api/transactions/query', {
+					method: 'POST',
+					headers: {
+						'Content-Type': 'application/json'
+					},
+					body: JSON.stringify(params.request)
+				});
+				if (!response.ok) {
+					params.fail();
+				}
+				const data = await response.json();
+				params.success({ rowData: data.rows, rowCount: data.lastRow });
+			}
+		},
 		columnDefs: [
 			{
 				field: 'transactionDate',
@@ -35,11 +48,11 @@
 			},
 			{
 				field: 'vendor',
-				filter: 'agSetColumnFilter',
+				filter: 'agTextColumnFilter',
 				editable: true,
 				onCellValueChanged: onVendorCellEdited
 			},
-			{ field: 'currency', cellDataType: 'text', filter: 'agSetColumnFilter' },
+			{ field: 'currency', cellDataType: 'text', filter: 'agTextColumnFilter' },
 			{
 				field: 'price',
 				filter: 'agNumberColumnFilter',
@@ -131,7 +144,12 @@
 
 	onMount(() => {
 		// Register all Community features
-		ModuleRegistry.registerModules([AllCommunityModule, RichSelectModule, SetFilterModule]);
+		ModuleRegistry.registerModules([
+			AllCommunityModule,
+			RichSelectModule,
+			SetFilterModule,
+			ServerSideRowModelModule
+		]);
 	});
 
 	async function onVendorCellEdited(

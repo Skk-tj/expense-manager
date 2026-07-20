@@ -30,11 +30,10 @@
 		"ag-grid-community": "^36.0.1",
 		"ag-grid-enterprise": "^36.0.1",
 		"drizzle-orm": "^0.45.2",
-		"drizzle-zod": "^0.8.3",
-		"luxon": "^3.7.2",
-		"zod": "^4.4.3"
+		"luxon": "^3.7.2"
 	},
 	"devDependencies": {
+		"@cloudflare/workers-types": "^5.20260719.1",
 		"@eslint/js": "^10.0.1",
 		"@skeletonlabs/skeleton": "5.0.0",
 		"@skeletonlabs/skeleton-svelte": "5.0.0",

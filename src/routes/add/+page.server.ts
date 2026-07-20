@@ -1,11 +1,9 @@
 import { db } from '$lib/server/db';
-import { type Expense, expenseInsertSchema, expenses } from '$lib/server/db/schema';
+import { type ExpenseInsert, expenses } from '$lib/server/db/schema';
 import { fail, redirect } from '@sveltejs/kit';
-import { z } from 'zod';
+import { desc } from 'drizzle-orm';
 
 import type { Actions, PageServerLoad } from './$types';
-
-import { desc } from 'drizzle-orm';
 
 export const load: PageServerLoad = async ({ platform }) => {
 	const allExpenses = await db(platform?.env.DB)
@@ -14,7 +12,7 @@ export const load: PageServerLoad = async ({ platform }) => {
 		.orderBy(desc(expenses.transactionDate));
 
 	const vendorAutofill: Record<string, any[]> = {};
-	
+
 	for (const exp of allExpenses) {
 		if (!vendorAutofill[exp.vendor]) {
 			vendorAutofill[exp.vendor] = [];
@@ -48,8 +46,29 @@ export const actions = {
 		const isMyCard = data.get('isMyCard');
 		const extraInfo = data.get('extraInfo');
 		const currency = data.get('currency');
+		const errors: Record<string, string[]> = {};
+		if (!date) errors.transactionDate = ['Required'];
+		if (!amount) errors.price = ['Required'];
+		if (!vendor) errors.vendor = ['Required'];
+		if (!category) errors.categoryId = ['Required'];
+		if (!currency) errors.currency = ['Required'];
 
-		const expenseToInsert: Omit<Expense, 'id'> = {
+		if (Object.keys(errors).length > 0) {
+			return fail(400, {
+				errors,
+				data: {
+					transactionDate: String(date),
+					vendor: String(vendor),
+					price: Number(amount),
+					categoryId: String(category),
+					isMyCard: isMyCard === 'on',
+					currency: String(currency),
+					extraInfo: extraInfo ? String(extraInfo) : ''
+				}
+			});
+		}
+
+		const expenseToInsert: ExpenseInsert = {
 			transactionDate: String(date),
 			vendor: String(vendor),
 			price: Number.parseFloat(String(amount)),
@@ -59,16 +78,7 @@ export const actions = {
 			currency: String(currency)
 		};
 
-		const parsed = expenseInsertSchema.safeParse(expenseToInsert);
-
-		if (!parsed.success) {
-			return fail(400, {
-				errors: z.flattenError(parsed.error).fieldErrors,
-				data: expenseToInsert
-			});
-		}
-
-		await db(platform?.env.DB).insert(expenses).values(parsed.data);
+		await db(platform?.env.DB).insert(expenses).values(expenseToInsert);
 
 		redirect(303, '/transactions');
 	}

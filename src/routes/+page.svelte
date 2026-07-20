@@ -11,7 +11,5 @@
 		sum={props.data.sum}
 		lastMonthSum={props.data.sumLastMonth}
 		sumByCategories={props.data.sumByCategories}
-		sumTrend={props.data.sumTrend}
-		sumTrendByCategory={props.data.sumTrendByCategory}
 	/>
 </div>

@@ -77,7 +77,7 @@
 			/>
 			<datalist id="vendor-options">
 				{#each data.vendors as vendor}
-					<option value={vendor} />
+					<option value={vendor}></option>
 				{/each}
 			</datalist>
 			{#if form?.errors?.vendor}
@@ -173,20 +173,26 @@
 	<button type="submit" class="btn preset-outlined-primary-500 mt-4"> Submit </button>
 
 	{#if suggestions.length > 0}
-		<div transition:fly|global={{ y: 10, duration: 200 }} class="mt-4 w-full p-4 border border-surface-200-800 rounded-container flex flex-col gap-3 bg-surface-50-950">
-			<span class="opacity-80 text-sm">Recent entries for <strong>{formData.vendor}</strong>:</span>
+		<div
+			transition:fly|global={{ y: 10, duration: 200 }}
+			class="border-surface-200-800 rounded-container bg-surface-50-950 mt-4 flex w-full flex-col gap-3 border p-4"
+		>
+			<span class="text-sm opacity-80">Recent entries for <strong>{formData.vendor}</strong>:</span>
 			<div class="flex flex-col gap-2">
 				{#each suggestions as suggestion, i (i)}
-					<button 
-						type="button" 
+					<button
+						type="button"
 						transition:fly|global={{ y: 20, duration: 300, delay: 100 + i * 100 }}
-						class="btn preset-tonal-secondary flex justify-between items-center p-2 text-sm w-full"
+						class="btn preset-tonal-secondary flex w-full items-center justify-between p-2 text-sm"
 						onclick={() => autofill(suggestion)}
 					>
 						<span>
-							{suggestion.date} &middot; {Categories[suggestion.categoryId as keyof typeof Categories]} &middot; {suggestion.currency} {suggestion.amount}
+							{suggestion.date} &middot; {Categories[
+								suggestion.categoryId as keyof typeof Categories
+							]} &middot; {suggestion.currency}
+							{suggestion.amount}
 						</span>
-						<span class="opacity-70 text-xs font-semibold">Autofill</span>
+						<span class="text-xs font-semibold opacity-70">Autofill</span>
 					</button>
 				{/each}
 			</div>
