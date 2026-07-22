@@ -60,10 +60,5 @@
 		"typescript-svelte-plugin": "latest",
 		"vite": "^8.1.5",
 		"wrangler": "latest"
-	},
-	"pnpm": {
-		"onlyBuiltDependencies": [
-			"esbuild"
-		]
 	}
 }
