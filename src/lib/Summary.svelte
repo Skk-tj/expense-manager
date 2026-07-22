@@ -18,7 +18,6 @@
 
 	let { sum, lastMonthSum, sumByCategories }: Props = $props();
 
-	let sumTrend: { date: [number, number]; sum: number }[] = $state([]);
 	let sumTrendByCategory: { time: [number, number]; [key: string]: number | [number, number] }[] =
 		$state([]);
 
@@ -28,13 +27,11 @@
 	onMount(async () => {
 		ModuleRegistry.registerModules([AllCommunityModule]);
 
-		Promise.all([
-			fetch('/api/reports/trend').then((res) => res.json()),
-			fetch('/api/reports/trend-by-category').then((res) => res.json())
-		]).then(([trendData, categoryTrendData]) => {
-			sumTrend = trendData.sumTrend;
-			sumTrendByCategory = categoryTrendData.sumTrendByCategory;
-		});
+		fetch('/api/reports/trend-by-category')
+			.then((res) => res.json())
+			.then(([categoryTrendData]) => {
+				sumTrendByCategory = categoryTrendData.sumTrendByCategory;
+			});
 	});
 
 	$effect(() => {
@@ -121,7 +118,7 @@
 	});
 </script>
 
-<div class="grid grid-cols-3 gap-2 xl:grid-cols-4">
+<div class="grid grid-cols-1 gap-2 md:grid-cols-2 md:gap-4 lg:grid-cols-3">
 	<Card title="Total Spent This Month">
 		{new Intl.NumberFormat('en-CA', { style: 'currency', currency: 'CAD' }).format(sum)}
 	</Card>
@@ -159,7 +156,7 @@
 		<div bind:this={pieChartElement}></div>
 	</Card>
 
-	<div class="col-span-2">
+	<div class="md:col-span-2 lg:col-span-3">
 		<Card title="Trend">
 			<div bind:this={lineChartElement} class="h-128"></div>
 		</Card>

@@ -13,7 +13,6 @@
 		themeQuartz
 	} from 'ag-grid-community';
 	import { ServerSideRowModelModule, RichSelectModule, SetFilterModule } from 'ag-grid-enterprise';
-	import { onMount } from 'svelte';
 
 	const gridOptions: GridOptions<ExpenseWithCategory> = $derived({
 		theme: themeQuartz.withPart(colorSchemeDark),
@@ -153,8 +152,6 @@
 			}
 		]
 	});
-
-
 
 	async function onVendorCellEdited(
 		event: NewValueParams<ExpenseWithCategory, string>

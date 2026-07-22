@@ -19,13 +19,25 @@
 	};
 
 	let formData: FormData = $state({
-		date: form?.data?.transactionDate ?? new Date().toISOString().split('T')[0],
-		amount: form?.data?.price ?? 0,
-		currency: form?.data?.currency ?? 'CAD',
-		isMyCard: form?.data?.isMyCard ?? true,
-		extraInfo: form?.data?.extraInfo ?? '',
-		vendor: form?.data?.vendor ?? '',
-		categoryId: String(form?.data?.categoryId ?? '1')
+		date: new Date().toISOString().split('T')[0],
+		amount: 0,
+		currency: 'CAD',
+		isMyCard: true,
+		extraInfo: '',
+		vendor: '',
+		categoryId: '1'
+	});
+
+	$effect(() => {
+		if (form?.data) {
+			formData.date = form.data.transactionDate;
+			formData.amount = form.data.price;
+			formData.currency = form.data.currency;
+			formData.isMyCard = form.data.isMyCard;
+			formData.extraInfo = form.data.extraInfo;
+			formData.vendor = form.data.vendor;
+			formData.categoryId = String(form.data.categoryId);
+		}
 	});
 
 	let suggestions = $derived(data.vendorAutofill?.[formData.vendor] ?? []);
@@ -39,8 +51,8 @@
 	}
 </script>
 
-<form class="mx-auto flex flex-col items-end p-2" method="POST" use:enhance>
-	<div class="grid grid-cols-1 gap-4 lg:grid-cols-2">
+<form class="mx-auto flex w-full max-w-3xl flex-col p-2 md:p-4" method="POST" use:enhance>
+	<div class="grid grid-cols-1 gap-2 lg:grid-cols-2 lg:gap-4">
 		<div>
 			<label class="label" for="date">
 				<span class="label-text">Date</span>
@@ -170,7 +182,7 @@
 		</div>
 	</div>
 
-	<button type="submit" class="btn preset-outlined-primary-500 mt-4"> Submit </button>
+	<button type="submit" class="btn preset-outlined-primary-500 mt-4 self-end"> Submit </button>
 
 	{#if suggestions.length > 0}
 		<div

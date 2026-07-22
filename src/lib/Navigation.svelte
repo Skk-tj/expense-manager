@@ -7,35 +7,46 @@
 
 	interface Props {
 		tab: Tabs;
+		layout?: 'rail' | 'bar';
 	}
 
-	let { tab }: Props = $props();
+	let { tab, layout = 'rail' }: Props = $props();
 
-	const anchorRail =
-		'btn hover:preset-tonal aspect-square w-full max-w-[84px] flex flex-col items-center gap-0.5';
+	const getAnchorClass = (id: Tabs) => {
+		const baseClass =
+			layout === 'rail'
+				? 'btn hover:preset-tonal aspect-square w-full max-w-[84px] flex flex-col items-center gap-0.5'
+				: 'btn hover:preset-tonal flex-1 flex flex-col items-center gap-0.5 py-1 px-0 md:py-2';
+		const activeClass = 'preset-tonal-primary';
+		return tab === id ? `${baseClass} ${activeClass}` : baseClass;
+	};
 </script>
 
-<div class="border-surface-200-800 grid h-full grid-cols-[auto_1fr]">
+<div
+	class="border-surface-200-800 bg-surface-50-950 h-full w-full {layout === 'rail'
+		? 'border-r'
+		: 'border-t'}"
+>
 	<!-- Component -->
-	<Navigation layout="rail">
-		<Navigation.Content>
-			<Navigation.Group>
-				<Navigation.Menu>
-					<a class={anchorRail} href="/">
+	<Navigation {layout} class={layout === 'bar' ? 'w-full' : ''}>
+		<Navigation.Content class={layout === 'bar' ? 'w-full' : ''}>
+			<Navigation.Group class={layout === 'bar' ? 'flex w-full flex-row justify-around' : ''}>
+				<Navigation.Menu class={layout === 'bar' ? 'flex flex-1' : ''}>
+					<a class={getAnchorClass('summary')} href="/">
 						<CircleDollarSign />
 						<span class="text-xs">Summary</span>
 					</a>
 				</Navigation.Menu>
 
-				<Navigation.Menu>
-					<a class={anchorRail} href="/transactions">
+				<Navigation.Menu class={layout === 'bar' ? 'flex flex-1' : ''}>
+					<a class={getAnchorClass('transactions')} href="/transactions">
 						<CreditCard />
 						<span class="text-xs">Transactions</span>
 					</a>
 				</Navigation.Menu>
 
-				<Navigation.Menu>
-					<a class={anchorRail} href="/add">
+				<Navigation.Menu class={layout === 'bar' ? 'flex flex-1' : ''}>
+					<a class={getAnchorClass('add')} href="/add">
 						<Plus />
 						<span class="text-xs">Add</span>
 					</a>

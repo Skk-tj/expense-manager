@@ -20,14 +20,33 @@
 	);
 </script>
 
-<aside class="sticky top-0 h-screen">
-	<Navigation tab={currentTab} />
-</aside>
+<div
+	class="grid h-full w-full grid-cols-1 grid-rows-[auto_1fr_auto] md:grid-cols-[auto_1fr] md:grid-rows-[auto_1fr]"
+>
+	<!-- Left Navigation (Desktop only) -->
+	<aside class="z-10 col-span-1 col-start-1 row-span-2 row-start-1 hidden md:block">
+		<Navigation tab={currentTab} layout="rail" />
+	</aside>
 
-<main class="flex flex-1 flex-col">
-	<TopBar tab={currentTab} />
-	{@render children?.()}
-</main>
+	<!-- Header -->
+	<header
+		class="border-surface-200-800 z-10 col-span-1 col-start-1 row-span-1 row-start-1 border-b md:col-span-1 md:col-start-2 md:row-span-1 md:row-start-1"
+	>
+		<TopBar tab={currentTab} />
+	</header>
+
+	<!-- Main -->
+	<main
+		class="col-span-1 col-start-1 row-span-1 row-start-2 overflow-y-auto p-2 md:col-span-1 md:col-start-2 md:row-span-1 md:row-start-2 md:p-4"
+	>
+		{@render children?.()}
+	</main>
+
+	<!-- Bottom Navigation (Mobile only) -->
+	<footer class="z-10 col-span-1 col-start-1 row-span-1 row-start-3 block md:hidden">
+		<Navigation tab={currentTab} layout="bar" />
+	</footer>
+</div>
 
 <Toast.Group {toaster}>
 	{#snippet children(toast)}
