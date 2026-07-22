@@ -21,7 +21,7 @@
 		"wrangler:dev": "vite build && wrangler dev"
 	},
 	"dependencies": {
-		"@auth/sveltekit": "^1.11.2",
+		"@auth/sveltekit": "^1.11.3",
 		"@libsql/client": "^0.17.4",
 		"@lucide/svelte": "latest",
 		"@tailwindcss/forms": "^0.5.11",
@@ -33,7 +33,7 @@
 		"luxon": "^3.7.2"
 	},
 	"devDependencies": {
-		"@cloudflare/workers-types": "^5.20260719.1",
+		"@cloudflare/workers-types": "^5.20260721.1",
 		"@eslint/js": "^10.0.1",
 		"@skeletonlabs/skeleton": "5.0.0",
 		"@skeletonlabs/skeleton-svelte": "5.0.0",
@@ -44,19 +44,19 @@
 		"@tailwindcss/vite": "^4.3.3",
 		"@types/luxon": "^3.7.2",
 		"@types/node": "^26.1.1",
-		"@typescript-eslint/eslint-plugin": "^8.64.0",
-		"@typescript-eslint/parser": "^8.64.0",
+		"@typescript-eslint/eslint-plugin": "^8.65.0",
+		"@typescript-eslint/parser": "^8.65.0",
 		"drizzle-kit": "^0.31.10",
 		"eslint": "^10.7.0",
-		"eslint-plugin-svelte": "^3.20.0",
+		"eslint-plugin-svelte": "^3.22.0",
 		"globals": "^17.7.0",
-		"oxfmt": "^0.57.0",
-		"svelte": "^5.56.6",
+		"oxfmt": "^0.59.0",
+		"svelte": "^5.56.7",
 		"svelte-check": "^4.7.3",
 		"svelte-language-server": "latest",
 		"tailwindcss": "^4.3.3",
 		"typescript": "^6.0.3",
-		"typescript-eslint": "^8.64.0",
+		"typescript-eslint": "^8.65.0",
 		"typescript-svelte-plugin": "latest",
 		"vite": "^8.1.5",
 		"wrangler": "latest"
