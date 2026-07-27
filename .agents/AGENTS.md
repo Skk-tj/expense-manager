@@ -21,4 +21,4 @@
 
 5. **Cloudflare Workers**
    - The project targets Cloudflare (via `@sveltejs/adapter-cloudflare` and `wrangler.jsonc`).
-   - Avoid Node.js-specific APIs (`fs`, `path`, etc.) in server-side logic unless properly shimmed or executed at build time. Use standard web APIs compatible with Cloudflare Workers.
+   - Avoid Node.js-specific APIs (`fs`, `path`, etc.) in server-side logic unless properly shimmed or executed at build time. Use standard web APIs compatible with Cloudflare Workers. DO NOT ASSUME THIS IS CLOUDFLARE PAGES.
