@@ -1,2 +1,5 @@
+packages:
+  - "."
 allowBuilds:
-  workerd: set this to true or false
+  - esbuild
+  - workerd
