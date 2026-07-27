@@ -21,6 +21,6 @@
 	],
 	"vars": {
 		"NODE_VERSION": "26.5.0",
-		"PNPM_VERSION": "11.15.0"
+		"PNPM_VERSION": "11.17.0"
 	}
 }
