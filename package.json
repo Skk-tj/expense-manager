@@ -26,14 +26,14 @@
 		"@lucide/svelte": "latest",
 		"@tailwindcss/forms": "^0.5.11",
 		"@tailwindcss/typography": "^0.5.20",
-		"ag-charts-community": "^14.0.1",
-		"ag-grid-community": "^36.0.1",
-		"ag-grid-enterprise": "^36.0.1",
+		"ag-charts-community": "^14.0.2",
+		"ag-grid-community": "^36.0.2",
+		"ag-grid-enterprise": "^36.0.2",
 		"drizzle-orm": "^0.45.2",
 		"luxon": "^3.7.2"
 	},
 	"devDependencies": {
-		"@cloudflare/workers-types": "^5.20260721.1",
+		"@cloudflare/workers-types": "^5.20260724.1",
 		"@eslint/js": "^10.0.1",
 		"@skeletonlabs/skeleton": "5.0.0",
 		"@skeletonlabs/skeleton-svelte": "5.0.0",
@@ -47,11 +47,11 @@
 		"@typescript-eslint/eslint-plugin": "^8.65.0",
 		"@typescript-eslint/parser": "^8.65.0",
 		"drizzle-kit": "^0.31.10",
-		"eslint": "^10.7.0",
+		"eslint": "^10.8.0",
 		"eslint-plugin-svelte": "^3.22.0",
 		"globals": "^17.7.0",
 		"oxfmt": "^0.59.0",
-		"svelte": "^5.56.7",
+		"svelte": "^5.56.8",
 		"svelte-check": "^4.7.3",
 		"svelte-language-server": "latest",
 		"tailwindcss": "^4.3.3",
@@ -60,5 +60,10 @@
 		"typescript-svelte-plugin": "latest",
 		"vite": "^8.1.5",
 		"wrangler": "latest"
+	},
+	"pnpm": {
+		"onlyBuiltDependencies": [
+			"esbuild"
+		]
 	}
 }
