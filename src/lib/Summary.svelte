@@ -29,7 +29,7 @@
 
 		fetch('/api/reports/trend-by-category')
 			.then((res) => res.json())
-			.then(([categoryTrendData]) => {
+			.then((categoryTrendData) => {
 				sumTrendByCategory = categoryTrendData.sumTrendByCategory;
 			});
 	});
