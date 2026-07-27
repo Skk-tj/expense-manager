@@ -156,7 +156,7 @@
 		<div bind:this={pieChartElement}></div>
 	</Card>
 
-	<div class="md:col-span-2 lg:col-span-3">
+	<div class="col-span-3">
 		<Card title="Trend">
 			<div bind:this={lineChartElement} class="h-128"></div>
 		</Card>
