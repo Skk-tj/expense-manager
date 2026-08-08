@@ -5,15 +5,28 @@ import { eq, desc, asc, and, like, sql, inArray } from 'drizzle-orm';
 
 import type { RequestHandler } from './$types';
 
+type AgGridFilter = {
+	filterType: 'text' | 'number' | 'boolean' | 'date' | 'set';
+	type?: string;
+	filter?: string | number | boolean;
+	dateFrom?: string;
+	values?: string[];
+};
+
 export const POST: RequestHandler = async ({ request, platform }) => {
-	const body = await request.json();
+	const body = (await request.json()) as {
+		startRow: number;
+		endRow: number;
+		sortModel: { colId: string; sort: 'asc' | 'desc' }[];
+		filterModel: Record<string, AgGridFilter>;
+	};
 	const { startRow, endRow, sortModel, filterModel } = body;
 
 	let filters = [];
 
 	if (filterModel) {
 		for (const [key, filterValue] of Object.entries(filterModel)) {
-			const filter = filterValue as any;
+			const filter = filterValue;
 			let column;
 			if (key === 'transactionDate') column = expenses.transactionDate;
 			else if (key === 'vendor') column = expenses.vendor;
@@ -27,15 +40,15 @@ export const POST: RequestHandler = async ({ request, platform }) => {
 
 			if (filter.filterType === 'text') {
 				if (filter.type === 'contains') filters.push(like(column, `%${filter.filter}%`));
-				else if (filter.type === 'equals') filters.push(eq(column, filter.filter));
+				else if (filter.type === 'equals') filters.push(eq(column, filter.filter!));
 			} else if (filter.filterType === 'number') {
-				if (filter.type === 'equals') filters.push(eq(column, filter.filter));
+				if (filter.type === 'equals') filters.push(eq(column, filter.filter!));
 				else if (filter.type === 'greaterThan') filters.push(sql`${column} > ${filter.filter}`);
 				else if (filter.type === 'lessThan') filters.push(sql`${column} < ${filter.filter}`);
 			} else if (filter.filterType === 'boolean') {
-				filters.push(eq(column, filter.type === 'equals' ? filter.filter : (filter as any).filter));
+				filters.push(eq(column, filter.filter!));
 			} else if (filter.filterType === 'date') {
-				if (filter.type === 'equals') filters.push(eq(column, filter.dateFrom));
+				if (filter.type === 'equals') filters.push(eq(column, filter.dateFrom!));
 				else if (filter.type === 'greaterThan') filters.push(sql`${column} > ${filter.dateFrom}`);
 				else if (filter.type === 'lessThan') filters.push(sql`${column} < ${filter.dateFrom}`);
 			} else if (filter.filterType === 'set') {

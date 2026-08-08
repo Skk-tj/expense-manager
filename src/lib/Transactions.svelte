@@ -8,11 +8,17 @@
 		createGrid,
 		type GridOptions,
 		type IRichCellEditorParams,
+		type ICellRendererParams,
 		ModuleRegistry,
 		type NewValueParams,
 		themeQuartz
 	} from 'ag-grid-community';
-	import { ServerSideRowModelModule, RichSelectModule, SetFilterModule } from 'ag-grid-enterprise';
+	import {
+		ServerSideRowModelModule,
+		RichSelectModule,
+		SetFilterModule,
+		type SetFilterValuesFuncParams
+	} from 'ag-grid-enterprise';
 
 	const gridOptions: GridOptions<ExpenseWithCategory> = $derived({
 		theme: themeQuartz.withPart(colorSchemeDark),
@@ -32,8 +38,8 @@
 				if (!response.ok) {
 					params.fail();
 				}
-				const data = await response.json();
-				const mappedRows = data.rows.map((row: any) => ({
+				const data = (await response.json()) as { rows: ExpenseWithCategory[]; lastRow: number };
+				const mappedRows = data.rows.map((row) => ({
 					...row,
 					transactionDate: new Date(row.transactionDate + 'T12:00:00')
 				}));
@@ -55,11 +61,11 @@
 				editable: true,
 				onCellValueChanged: onVendorCellEdited,
 				filterParams: {
-					values: (params: any) => {
+					values: (params: SetFilterValuesFuncParams) => {
 						fetch('/api/transactions/vendors')
-							.then((res) => res.json())
+							.then((res) => res.json() as Promise<string[]>)
 							.then((data) => params.success(data))
-							.catch(() => params.fail());
+							.catch(() => params.success([]));
 					}
 				}
 			},
@@ -124,8 +130,9 @@
 			},
 			{
 				headerName: 'Actions',
-				cellRenderer: (params: any) => {
-					if (!params.data) return '';
+				cellRenderer: (params: ICellRendererParams<ExpenseWithCategory>) => {
+					const rowData = params.data;
+					if (!rowData) return '';
 					const button = document.createElement('button');
 					button.innerText = 'Delete';
 					button.className = 'btn preset-filled-error-500 py-1 px-3 text-xs rounded-md font-bold';
@@ -133,11 +140,11 @@
 						if (!confirm('Are you sure you want to delete this expense?')) return;
 						const response = await fetch('/api/transactions/delete', {
 							method: 'DELETE',
-							body: JSON.stringify({ id: params.data.id }),
+							body: JSON.stringify({ id: rowData.id }),
 							headers: { 'Content-Type': 'application/json' }
 						});
 						if (response.ok) {
-							params.api.applyTransaction({ remove: [params.data] });
+							params.api.applyTransaction({ remove: [rowData] });
 							toaster.success({ title: 'Expense deleted' });
 						} else {
 							toaster.error({ title: 'Failed to delete expense' });

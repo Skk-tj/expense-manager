@@ -24,11 +24,19 @@
 	let pieChartElement: HTMLDivElement | undefined = $state();
 	let lineChartElement: HTMLDivElement | undefined = $state();
 
-	onMount(async () => {
+	onMount(() => {
 		ModuleRegistry.registerModules([AllCommunityModule]);
 
 		fetch('/api/reports/trend-by-category')
-			.then((res) => res.json())
+			.then(
+				(res) =>
+					res.json() as Promise<{
+						sumTrendByCategory: {
+							time: [number, number];
+							[key: string]: number | [number, number];
+						}[];
+					}>
+			)
 			.then((categoryTrendData) => {
 				sumTrendByCategory = categoryTrendData.sumTrendByCategory;
 			});

@@ -5,13 +5,22 @@ import { desc } from 'drizzle-orm';
 
 import type { Actions, PageServerLoad } from './$types';
 
+export type VendorAutofill = {
+	date: string;
+	amount: number;
+	categoryId: string;
+	currency: string;
+	isMyCard: boolean;
+	extraInfo: string;
+};
+
 export const load: PageServerLoad = async ({ platform }) => {
 	const allExpenses = await db(platform?.env.DB)
 		.select()
 		.from(expenses)
 		.orderBy(desc(expenses.transactionDate));
 
-	const vendorAutofill: Record<string, any[]> = {};
+	const vendorAutofill: Record<string, VendorAutofill[]> = {};
 
 	for (const exp of allExpenses) {
 		if (!vendorAutofill[exp.vendor]) {

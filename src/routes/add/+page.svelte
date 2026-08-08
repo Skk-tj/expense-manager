@@ -5,6 +5,7 @@
 	import { fly } from 'svelte/transition';
 
 	import type { ActionData, PageData } from './$types';
+	import type { VendorAutofill } from './+page.server';
 
 	let { form, data }: { form: ActionData; data: PageData } = $props();
 
@@ -42,7 +43,7 @@
 
 	let suggestions = $derived(data.vendorAutofill?.[formData.vendor] ?? []);
 
-	function autofill(suggestion: any) {
+	function autofill(suggestion: VendorAutofill) {
 		formData.amount = suggestion.amount;
 		formData.currency = suggestion.currency;
 		formData.categoryId = suggestion.categoryId;
@@ -200,7 +201,7 @@
 					>
 						<span>
 							{suggestion.date} &middot; {Categories[
-								suggestion.categoryId as keyof typeof Categories
+								Number(suggestion.categoryId) as keyof typeof Categories
 							]} &middot; {suggestion.currency}
 							{suggestion.amount}
 						</span>

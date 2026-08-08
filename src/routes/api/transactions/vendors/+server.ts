@@ -2,7 +2,9 @@ import { db } from '$lib/server/db';
 import { expenses } from '$lib/server/db/schema';
 import { json } from '@sveltejs/kit';
 
-export const GET = async ({ platform }) => {
+import type { RequestHandler } from './$types';
+
+export const GET: RequestHandler = async ({ platform }) => {
 	const data = await db(platform?.env.DB)
 		.selectDistinct({ vendor: expenses.vendor })
 		.from(expenses)

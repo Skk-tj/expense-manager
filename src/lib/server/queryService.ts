@@ -1,6 +1,5 @@
 import { db } from '$lib/server/db';
 import { categories, expenses } from '$lib/server/db/schema';
-import type { D1Database } from '@cloudflare/workers-types';
 import { and, eq, sql } from 'drizzle-orm';
 import { sum } from 'drizzle-orm/sql/functions/aggregate';
 
