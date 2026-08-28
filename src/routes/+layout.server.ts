@@ -1,4 +1,7 @@
+import { db } from '$lib/server/db';
+import { queuedPurchases } from '$lib/server/db/schema';
 import { redirect } from '@sveltejs/kit';
+import { sql } from 'drizzle-orm';
 
 import type { LayoutServerLoad } from './$types';
 
@@ -7,7 +10,8 @@ export const load: LayoutServerLoad = async (event) => {
 	const currentPath = event.url.pathname;
 	if (currentPath === '/auth/signin') {
 		return {
-			session
+			session,
+			queuedCount: 0
 		};
 	}
 
@@ -15,7 +19,20 @@ export const load: LayoutServerLoad = async (event) => {
 		redirect(303, '/auth/signin');
 	}
 
+	let queuedCount = 0;
+	if (event.platform?.env.DB) {
+		try {
+			const [{ count }] = await db(event.platform.env.DB)
+				.select({ count: sql`count(*)` })
+				.from(queuedPurchases);
+			queuedCount = Number(count);
+		} catch (e) {
+			console.error('Failed to get queued count', e);
+		}
+	}
+
 	return {
-		session
+		session,
+		queuedCount
 	};
 };

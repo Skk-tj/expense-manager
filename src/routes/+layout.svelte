@@ -14,9 +14,11 @@
 	let currentTab: Tabs = $derived(
 		page.url.pathname.startsWith('/transactions')
 			? 'transactions'
-			: page.url.pathname.startsWith('/add')
-				? 'add'
-				: 'summary'
+			: page.url.pathname.startsWith('/queued')
+				? 'queued'
+				: page.url.pathname.startsWith('/add')
+					? 'add'
+					: 'summary'
 	);
 </script>
 

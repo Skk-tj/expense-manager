@@ -43,10 +43,10 @@ importers:
         specifier: ^10.0.1
         version: 10.0.1(eslint@10.9.1(jiti@2.7.0)(supports-color@10.2.2))
       '@skeletonlabs/skeleton':
-        specifier: 5.0.1
+        specifier: ^5.0.1
         version: 5.0.1(tailwindcss@4.3.3)
       '@skeletonlabs/skeleton-svelte':
-        specifier: 5.0.1
+        specifier: ^5.0.1
         version: 5.0.1(svelte@5.56.10(@typescript-eslint/types@8.68.0))
       '@sveltejs/adapter-cloudflare':
         specifier: ^7.2.9

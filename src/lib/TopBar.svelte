@@ -15,6 +15,8 @@
 			<h2 class="h3 md:h2">Transactions</h2>
 		{:else if tab === 'summary'}
 			<h2 class="h3 md:h2">Summary</h2>
+		{:else if tab === 'queued'}
+			<h2 class="h3 md:h2">Queued Purchases</h2>
 		{:else if tab === 'add'}
 			<h2 class="h3 md:h2">Add</h2>
 		{/if}

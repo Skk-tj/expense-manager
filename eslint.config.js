@@ -19,7 +19,10 @@ export default [
 		languageOptions: {
 			globals: {
 				...globals.browser,
-				...globals.node
+				...globals.node,
+				D1Database: 'readonly',
+				Env: 'readonly',
+				Fetcher: 'readonly'
 			}
 		}
 	},
@@ -42,6 +45,9 @@ export default [
 				// explicitly specifying it ensures better compatibility and functionality.
 				svelteConfig
 			}
+		},
+		rules: {
+			'no-unused-vars': 'off'
 		}
 	}
 ];

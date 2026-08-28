@@ -1,4 +1,4 @@
-export type Tabs = 'transactions' | 'summary' | 'add';
+export type Tabs = 'transactions' | 'summary' | 'add' | 'queued';
 
 export const Categories = {
 	1: 'Subscription',

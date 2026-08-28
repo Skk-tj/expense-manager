@@ -89,7 +89,7 @@
 				bind:value={formData.vendor}
 			/>
 			<datalist id="vendor-options">
-				{#each data.vendors as vendor}
+				{#each data.vendors as vendor (vendor)}
 					<option value={vendor}></option>
 				{/each}
 			</datalist>
