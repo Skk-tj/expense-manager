@@ -18,9 +18,5 @@
 			"database_id": "4d4f56e0-2313-4ba2-af83-bf6b37efacfb",
 			"migrations_dir": "drizzle"
 		}
-	],
-	"vars": {
-		"NODE_VERSION": "26.8.1",
-		"PNPM_VERSION": "12.3.4"
-	}
+	]
 }

@@ -62,6 +62,5 @@
 		"typescript-svelte-plugin": "latest",
 		"vite": "^8.2.2",
 		"wrangler": "latest"
-	},
-	"packageManager": "pnpm@11.17.0"
+	}
 }
