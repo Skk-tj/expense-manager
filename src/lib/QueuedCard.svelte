@@ -49,6 +49,7 @@
 		isMyCard = suggestion.isMyCard;
 		if (suggestion.extraInfo) extraInfo = suggestion.extraInfo;
 		if (suggestion.currency) currency = suggestion.currency;
+		if (suggestion.amount) amount = suggestion.amount;
 	}
 
 	function formatTime(isoString: string) {
@@ -155,7 +156,6 @@
 					id="vendor-{item.id}"
 					name="vendor"
 					required
-					placeholder="e.g. Starbucks, Amazon"
 					autocomplete="off"
 					list="vendor-options-{item.id}"
 					bind:value={vendor}
