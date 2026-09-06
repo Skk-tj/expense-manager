@@ -1,16 +1,13 @@
 <script lang="ts">
-	import QueuedCard from "$lib/QueuedCard.svelte";
+	import QueuedCard from '$lib/QueuedCard.svelte';
+	import Inbox from '@lucide/svelte/icons/inbox';
 
-	import Inbox from "@lucide/svelte/icons/inbox";
-
-	import type { PageData } from "./$types";
+	import type { PageData } from './$types';
 
 	let { data }: { data: PageData } = $props();
 
 	let removedIds = $state<number[]>([]);
-	let items = $derived(
-		data.queuedPurchases.filter((item) => !removedIds.includes(item.id)),
-	);
+	let items = $derived(data.queuedPurchases.filter((item) => !removedIds.includes(item.id)));
 
 	function onItemProcessed(id: number) {
 		removedIds.push(id);
@@ -22,11 +19,9 @@
 	<div class="flex flex-wrap items-center justify-between gap-3">
 		<div class="flex items-center gap-2">
 			{#if items.length > 0}
-				<span
-					class="badge preset-filled-primary-500 text-sm font-semibold"
-				>
+				<span class="badge preset-filled-primary-500 text-sm font-semibold">
 					{items.length}
-					{items.length === 1 ? "purchase" : "purchases"} pending
+					{items.length === 1 ? 'purchase' : 'purchases'} pending
 				</span>
 			{/if}
 		</div>
