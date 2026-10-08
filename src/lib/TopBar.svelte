@@ -1,6 +1,7 @@
 <script lang="ts">
-	import type { Tabs } from '$lib';
 	import { AppBar } from '@skeletonlabs/skeleton-svelte';
+
+	import type { Tabs } from '#lib';
 
 	interface Props {
 		tab: Tabs;

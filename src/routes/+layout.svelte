@@ -1,13 +1,14 @@
 <script lang="ts">
 	import { page } from '$app/state';
-	import type { Tabs } from '$lib';
-	import Navigation from '$lib/Navigation.svelte';
-	import { toaster } from '$lib/toaster/toaster';
-
-	import '../app.css';
-	import TopBar from '$lib/TopBar.svelte';
 	import { Toast } from '@skeletonlabs/skeleton-svelte';
 	import { type Snippet } from 'svelte';
+
+	import type { Tabs } from '#lib';
+
+	import '../app.css';
+	import Navigation from '#lib/Navigation.svelte';
+	import { toaster } from '#lib/toaster/toaster.js';
+	import TopBar from '#lib/TopBar.svelte';
 
 	let { children }: { children?: Snippet<[]> } = $props();
 

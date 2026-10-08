@@ -1,5 +1,6 @@
-import { categories, expenses } from '$lib/server/db/schema';
 import { relations } from 'drizzle-orm/relations';
+
+import { categories, expenses } from '#lib/server/db/schema.js';
 
 export const expensesRelations = relations(expenses, ({ one }) => ({
 	category: one(categories, {

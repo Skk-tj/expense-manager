@@ -10,8 +10,6 @@
 </script>
 
 <div class="card preset-filled-surface-100-900 border-surface-200-800 h-full border p-3 md:p-4">
-	<h6 class="h6">{title}</h6>
-	<h1 class="h1">
-		{@render children?.()}
-	</h1>
+	<h6 class="h6 mb-2">{title}</h6>
+	{@render children?.()}
 </div>

@@ -1,8 +1,9 @@
 <script lang="ts">
 	import { enhance } from '$app/forms';
-	import { Categories } from '$lib';
 	import CircleDollarSign from '@lucide/svelte/icons/circle-dollar-sign';
 	import { fly } from 'svelte/transition';
+
+	import { Categories } from '#lib';
 
 	import type { ActionData, PageData } from './$types';
 	import type { VendorAutofill } from './+page.server';

@@ -1,5 +1,5 @@
 <script lang="ts">
-	import Summary from '$lib/Summary.svelte';
+	import Summary from '#lib/Summary.svelte';
 
 	import type { PageProps } from './$types';
 
@@ -10,6 +10,7 @@
 	<Summary
 		sum={props.data.sum}
 		lastMonthSum={props.data.sumLastMonth}
+		currencyBreakdown={props.data.currencyBreakdown}
 		sumByCategories={props.data.sumByCategories}
 	/>
 </div>

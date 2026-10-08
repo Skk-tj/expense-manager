@@ -1,7 +1,7 @@
-import { db } from '$lib/server/db';
-import { expenses, categories } from '$lib/server/db/schema';
-import { json } from '@sveltejs/kit';
 import { eq, desc, asc, and, like, sql, inArray } from 'drizzle-orm';
+
+import { db } from '#lib/server/db/index.js';
+import { expenses, categories } from '#lib/server/db/schema.js';
 
 import type { RequestHandler } from './$types';
 
@@ -13,7 +13,7 @@ type AgGridFilter = {
 	values?: string[];
 };
 
-export const POST: RequestHandler = async ({ request, platform }) => {
+export const POST: RequestHandler = async ({ request }) => {
 	const body = (await request.json()) as {
 		startRow: number;
 		endRow: number;
@@ -81,7 +81,7 @@ export const POST: RequestHandler = async ({ request, platform }) => {
 		orderBys.push(desc(expenses.transactionDate));
 	}
 
-	const query = db(platform?.env.DB)
+	const query = db()
 		.select({
 			id: expenses.id,
 			transactionDate: expenses.transactionDate,
@@ -100,7 +100,7 @@ export const POST: RequestHandler = async ({ request, platform }) => {
 		.limit(endRow - startRow)
 		.offset(startRow);
 
-	const countQuery = db(platform?.env.DB)
+	const countQuery = db()
 		.select({ count: sql`count(*)` })
 		.from(expenses)
 		.innerJoin(categories, eq(categories.id, expenses.categoryId))
@@ -115,7 +115,7 @@ export const POST: RequestHandler = async ({ request, platform }) => {
 		isMyCard: Boolean(row.isMyCard)
 	}));
 
-	return json({
+	return Response.json({
 		rows: parsedData,
 		lastRow: Number(count)
 	});

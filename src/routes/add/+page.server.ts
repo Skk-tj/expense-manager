@@ -1,7 +1,8 @@
-import { db } from '$lib/server/db';
-import { type ExpenseInsert, expenses } from '$lib/server/db/schema';
 import { fail, redirect } from '@sveltejs/kit';
 import { desc } from 'drizzle-orm';
+
+import { db } from '#lib/server/db/index.js';
+import { type ExpenseInsert, expenses } from '#lib/server/db/schema.js';
 
 import type { Actions, PageServerLoad } from './$types';
 
@@ -14,11 +15,8 @@ export type VendorAutofill = {
 	extraInfo: string;
 };
 
-export const load: PageServerLoad = async ({ platform }) => {
-	const allExpenses = await db(platform?.env.DB)
-		.select()
-		.from(expenses)
-		.orderBy(desc(expenses.transactionDate));
+export const load: PageServerLoad = async () => {
+	const allExpenses = await db().select().from(expenses).orderBy(desc(expenses.transactionDate));
 
 	const vendorAutofill: Record<string, VendorAutofill[]> = {};
 
@@ -45,7 +43,7 @@ export const load: PageServerLoad = async ({ platform }) => {
 };
 
 export const actions = {
-	default: async ({ request, platform }) => {
+	default: async ({ request }) => {
 		const data = await request.formData();
 
 		const date = data.get('date');
@@ -87,7 +85,7 @@ export const actions = {
 			currency: String(currency)
 		};
 
-		await db(platform?.env.DB).insert(expenses).values(expenseToInsert);
+		await db().insert(expenses).values(expenseToInsert);
 
 		redirect(303, '/transactions');
 	}

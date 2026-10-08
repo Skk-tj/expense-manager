@@ -1,9 +1,10 @@
-import { getMonthlyTrendByCategory } from '$lib/server/queryService';
-import { json } from '@sveltejs/kit';
+import { env } from 'cloudflare:workers';
+
+import { getMonthlyTrendByCategory } from '#lib/server/queryService.js';
 
 import type { RequestHandler } from './$types';
 
-export const GET: RequestHandler = async ({ platform }) => {
-	const sumTrendByCategory = await getMonthlyTrendByCategory(platform?.env.DB);
-	return json({ sumTrendByCategory });
+export const GET: RequestHandler = async () => {
+	const sumTrendByCategory = await getMonthlyTrendByCategory(env.DB);
+	return Response.json({ sumTrendByCategory });
 };

@@ -1,7 +1,8 @@
-import { db } from '$lib/server/db';
-import { queuedPurchases } from '$lib/server/db/schema';
 import { redirect } from '@sveltejs/kit';
 import { sql } from 'drizzle-orm';
+
+import { db } from '#lib/server/db/index.js';
+import { queuedPurchases } from '#lib/server/db/schema.js';
 
 import type { LayoutServerLoad } from './$types';
 
@@ -20,15 +21,13 @@ export const load: LayoutServerLoad = async (event) => {
 	}
 
 	let queuedCount = 0;
-	if (event.platform?.env.DB) {
-		try {
-			const [{ count }] = await db(event.platform.env.DB)
-				.select({ count: sql`count(*)` })
-				.from(queuedPurchases);
-			queuedCount = Number(count);
-		} catch (e) {
-			console.error('Failed to get queued count', e);
-		}
+	try {
+		const [{ count }] = await db()
+			.select({ count: sql`count(*)` })
+			.from(queuedPurchases);
+		queuedCount = Number(count);
+	} catch (e) {
+		console.error('Failed to get queued count', e);
 	}
 
 	return {

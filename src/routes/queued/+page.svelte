@@ -1,6 +1,7 @@
 <script lang="ts">
-	import QueuedCard from '$lib/QueuedCard.svelte';
 	import Inbox from '@lucide/svelte/icons/inbox';
+
+	import QueuedCard from '#lib/QueuedCard.svelte';
 
 	import type { PageData } from './$types';
 

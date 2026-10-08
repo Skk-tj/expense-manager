@@ -1,7 +1,8 @@
-import { db } from '$lib/server/db';
-import { queuedPurchases, categories } from '$lib/server/db/schema';
-import { json } from '@sveltejs/kit';
+import { env } from 'cloudflare:workers';
 import { desc, eq } from 'drizzle-orm';
+
+import { db } from '#lib/server/db/index.js';
+import { queuedPurchases, categories } from '#lib/server/db/schema.js';
 
 import type { RequestHandler } from './$types';
 
@@ -28,13 +29,10 @@ function extractToken(request: Request, url: URL, body?: Record<string, unknown>
 	return null;
 }
 
-function isAuthorized(token: string | null, env?: Env): boolean {
-	const validSecrets = [
-		(env as Record<string, unknown> | undefined)?.SHORTCUTS_API_KEY,
-		(env as Record<string, unknown> | undefined)?.API_KEY,
-		env?.AUTH_SECRET,
-		env?.PASSWORD
-	].filter((s): s is string => typeof s === 'string' && s.length > 0);
+function isAuthorized(token: string | null): boolean {
+	const validSecrets = [env.SHORTCUTS_API_KEY, env.API_KEY, env.AUTH_SECRET, env.PASSWORD].filter(
+		(s): s is string => typeof s === 'string' && s.length > 0
+	);
 
 	// If no secrets are configured in the environment, allow (e.g. local dev)
 	if (validSecrets.length === 0) {
@@ -73,22 +71,25 @@ function parseDate(val: unknown): string {
 	return new Date().toISOString().split('T')[0];
 }
 
-export const POST: RequestHandler = async ({ request, url, platform, locals }) => {
+export const POST: RequestHandler = async ({ request, url, locals }) => {
 	const body = ((await request.json().catch(() => ({}))) || {}) as Record<string, unknown>;
 
 	const session = await locals.auth().catch(() => null);
 	const token = extractToken(request, url, body);
 
 	// If not logged in via session, check token
-	if (!session?.user && !isAuthorized(token, platform?.env)) {
-		return json({ error: 'Unauthorized: Invalid or missing API key/token' }, { status: 401 });
+	if (!session?.user && !isAuthorized(token)) {
+		return Response.json(
+			{ error: 'Unauthorized: Invalid or missing API key/token' },
+			{ status: 401 }
+		);
 	}
 
 	const rawAmount = body.amount ?? body.price ?? body.value ?? body.cost;
 	const amount = parseAmount(rawAmount);
 
 	if (amount === null) {
-		return json(
+		return Response.json(
 			{
 				error: 'Invalid or missing amount/price field',
 				received: rawAmount
@@ -137,7 +138,7 @@ export const POST: RequestHandler = async ({ request, url, platform, locals }) =
 		if (!Number.isNaN(parsed)) categoryId = parsed;
 	}
 
-	const [created] = await db(platform?.env.DB)
+	const [created] = await db(env.DB)
 		.insert(queuedPurchases)
 		.values({
 			price: amount,
@@ -150,22 +151,22 @@ export const POST: RequestHandler = async ({ request, url, platform, locals }) =
 		})
 		.returning();
 
-	return json({
+	return Response.json({
 		success: true,
 		message: 'Queued purchase created successfully',
 		purchase: created
 	});
 };
 
-export const GET: RequestHandler = async ({ platform, locals, request, url }) => {
+export const GET: RequestHandler = async ({ locals, request, url }) => {
 	const session = await locals.auth().catch(() => null);
 	const token = extractToken(request, url);
 
-	if (!session?.user && !isAuthorized(token, platform?.env)) {
-		return json({ error: 'Unauthorized' }, { status: 401 });
+	if (!session?.user && !isAuthorized(token)) {
+		return Response.json({ error: 'Unauthorized' }, { status: 401 });
 	}
 
-	const items = await db(platform?.env.DB)
+	const items = await db(env.DB)
 		.select({
 			id: queuedPurchases.id,
 			transactionDate: queuedPurchases.transactionDate,
@@ -182,18 +183,18 @@ export const GET: RequestHandler = async ({ platform, locals, request, url }) =>
 		.leftJoin(categories, eq(categories.id, queuedPurchases.categoryId))
 		.orderBy(desc(queuedPurchases.id));
 
-	return json({
+	return Response.json({
 		count: items.length,
 		items
 	});
 };
 
-export const DELETE: RequestHandler = async ({ request, platform, locals, url }) => {
+export const DELETE: RequestHandler = async ({ request, locals, url }) => {
 	const session = await locals.auth().catch(() => null);
 	const token = extractToken(request, url);
 
-	if (!session?.user && !isAuthorized(token, platform?.env)) {
-		return json({ error: 'Unauthorized' }, { status: 401 });
+	if (!session?.user && !isAuthorized(token)) {
+		return Response.json({ error: 'Unauthorized' }, { status: 401 });
 	}
 
 	let id: number | null = null;
@@ -206,10 +207,10 @@ export const DELETE: RequestHandler = async ({ request, platform, locals, url })
 	}
 
 	if (!id) {
-		return json({ error: 'Missing or invalid ID' }, { status: 400 });
+		return Response.json({ error: 'Missing or invalid ID' }, { status: 400 });
 	}
 
-	await db(platform?.env.DB).delete(queuedPurchases).where(eq(queuedPurchases.id, id));
+	await db(env.DB).delete(queuedPurchases).where(eq(queuedPurchases.id, id));
 
-	return json({ success: true, id });
+	return Response.json({ success: true, id });
 };

@@ -1,7 +1,4 @@
 <script lang="ts">
-	import { Categories } from '$lib/index';
-	import { type ExpenseWithCategory } from '$lib/server/db/schema';
-	import { toaster } from '$lib/toaster/toaster';
 	import {
 		AllCommunityModule,
 		colorSchemeDark,
@@ -19,6 +16,10 @@
 		SetFilterModule,
 		type SetFilterValuesFuncParams
 	} from 'ag-grid-enterprise';
+
+	import { Categories } from '#lib/index.js';
+	import { type ExpenseWithCategory } from '#lib/server/db/schema.js';
+	import { toaster } from '#lib/toaster/toaster.js';
 
 	const gridOptions: GridOptions<ExpenseWithCategory> = $derived({
 		theme: themeQuartz.withPart(colorSchemeDark),

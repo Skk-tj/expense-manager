@@ -4,7 +4,9 @@
 	"singleQuote": true,
 	"trailingComma": "none",
 	"printWidth": 100,
-	"sortImports": true,
+	"sortImports": {
+		"internalPattern": ["#lib", "#lib/*"]
+	},
 	"sortTailwindcss": true,
 	"sortPackageJson": true,
 	"svelte": true,

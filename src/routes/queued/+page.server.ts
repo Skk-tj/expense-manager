@@ -1,16 +1,14 @@
-import { db } from '$lib/server/db';
-import { type ExpenseInsert, expenses, queuedPurchases } from '$lib/server/db/schema';
 import { fail } from '@sveltejs/kit';
 import { desc, eq } from 'drizzle-orm';
+
+import { db } from '#lib/server/db/index.js';
+import { type ExpenseInsert, expenses, queuedPurchases } from '#lib/server/db/schema.js';
 
 import type { VendorAutofill } from '../add/+page.server';
 import type { Actions, PageServerLoad } from './$types';
 
-export const load: PageServerLoad = async ({ platform }) => {
-	const allExpenses = await db(platform?.env.DB)
-		.select()
-		.from(expenses)
-		.orderBy(desc(expenses.transactionDate));
+export const load: PageServerLoad = async () => {
+	const allExpenses = await db().select().from(expenses).orderBy(desc(expenses.transactionDate));
 
 	const vendorAutofill: Record<string, VendorAutofill[]> = {};
 
@@ -30,10 +28,7 @@ export const load: PageServerLoad = async ({ platform }) => {
 		}
 	}
 
-	const queued = await db(platform?.env.DB)
-		.select()
-		.from(queuedPurchases)
-		.orderBy(desc(queuedPurchases.id));
+	const queued = await db().select().from(queuedPurchases).orderBy(desc(queuedPurchases.id));
 
 	return {
 		queuedPurchases: queued,
@@ -43,7 +38,7 @@ export const load: PageServerLoad = async ({ platform }) => {
 };
 
 export const actions = {
-	confirm: async ({ request, platform }) => {
+	confirm: async ({ request }) => {
 		const data = await request.formData();
 
 		const id = data.get('id');
@@ -84,10 +79,10 @@ export const actions = {
 		};
 
 		// 1. Insert into expenses
-		await db(platform?.env.DB).insert(expenses).values(expenseToInsert);
+		await db().insert(expenses).values(expenseToInsert);
 
 		// 2. Remove from queued purchases
-		await db(platform?.env.DB)
+		await db()
 			.delete(queuedPurchases)
 			.where(eq(queuedPurchases.id, Number(id)));
 
@@ -98,7 +93,7 @@ export const actions = {
 		};
 	},
 
-	delete: async ({ request, platform }) => {
+	delete: async ({ request }) => {
 		const data = await request.formData();
 		const id = data.get('id');
 
@@ -106,7 +101,7 @@ export const actions = {
 			return fail(400, { error: 'Missing ID' });
 		}
 
-		await db(platform?.env.DB)
+		await db()
 			.delete(queuedPurchases)
 			.where(eq(queuedPurchases.id, Number(id)));
 

@@ -1,14 +1,15 @@
 <script lang="ts">
 	import { enhance } from '$app/forms';
-	import { Categories } from '$lib';
-	import type { QueuedPurchase } from '$lib/server/db/schema';
-	import { toaster } from '$lib/toaster/toaster';
 	import Check from '@lucide/svelte/icons/check';
 	import CircleDollarSign from '@lucide/svelte/icons/circle-dollar-sign';
 	import Clock from '@lucide/svelte/icons/clock';
 	import Sparkles from '@lucide/svelte/icons/sparkles';
 	import Trash2 from '@lucide/svelte/icons/trash-2';
 	import { fly } from 'svelte/transition';
+
+	import { Categories } from '#lib';
+	import type { QueuedPurchase } from '#lib/server/db/schema.js';
+	import { toaster } from '#lib/toaster/toaster.js';
 
 	import type { VendorAutofill } from '../routes/add/+page.server';
 

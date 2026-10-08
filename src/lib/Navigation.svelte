@@ -1,12 +1,13 @@
 <script lang="ts">
 	import { resolve } from '$app/paths';
 	import { page } from '$app/state';
-	import type { Tabs } from '$lib';
 	import CircleDollarSign from '@lucide/svelte/icons/circle-dollar-sign';
 	import CreditCard from '@lucide/svelte/icons/credit-card';
 	import Inbox from '@lucide/svelte/icons/inbox';
 	import Plus from '@lucide/svelte/icons/plus';
 	import { Navigation } from '@skeletonlabs/skeleton-svelte';
+
+	import type { Tabs } from '#lib';
 
 	interface Props {
 		tab: Tabs;
@@ -37,21 +38,21 @@
 		<Navigation.Content class={layout === 'bar' ? 'w-full' : ''}>
 			<Navigation.Group class={layout === 'bar' ? 'flex w-full flex-row justify-around' : ''}>
 				<Navigation.Menu class={layout === 'bar' ? 'flex flex-1' : ''}>
-					<a class={getAnchorClass('summary')} href={resolve('/', {})}>
+					<a class={getAnchorClass('summary')} href={resolve('/')}>
 						<CircleDollarSign />
 						<span class="text-xs">Summary</span>
 					</a>
 				</Navigation.Menu>
 
 				<Navigation.Menu class={layout === 'bar' ? 'flex flex-1' : ''}>
-					<a class={getAnchorClass('transactions')} href={resolve('/transactions', {})}>
+					<a class={getAnchorClass('transactions')} href={resolve('/transactions')}>
 						<CreditCard />
 						<span class="text-xs">Transactions</span>
 					</a>
 				</Navigation.Menu>
 
 				<Navigation.Menu class={layout === 'bar' ? 'flex flex-1' : ''}>
-					<a class={getAnchorClass('queued')} href={resolve('/queued', {})}>
+					<a class={getAnchorClass('queued')} href={resolve('/queued')}>
 						<div class="relative flex items-center justify-center">
 							<Inbox />
 							{#if queuedCount > 0}
@@ -67,7 +68,7 @@
 				</Navigation.Menu>
 
 				<Navigation.Menu class={layout === 'bar' ? 'flex flex-1' : ''}>
-					<a class={getAnchorClass('add')} href={resolve('/add', {})}>
+					<a class={getAnchorClass('add')} href={resolve('/add')}>
 						<Plus />
 						<span class="text-xs">Add</span>
 					</a>

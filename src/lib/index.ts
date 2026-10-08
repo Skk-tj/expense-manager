@@ -11,3 +11,10 @@ export const Categories = {
 	8: 'Travel',
 	9: 'Pet'
 } as const;
+
+export interface CurrencyBreakdownItem {
+	currency: string;
+	originalAmount: number;
+	cadAmount: number;
+	rate: number;
+}

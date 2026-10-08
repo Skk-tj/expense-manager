@@ -1,10 +1,12 @@
-import { credentials } from '$lib/auth/credentials';
 import { SvelteKitAuth, type SvelteKitAuthConfig } from '@auth/sveltekit';
+import { env } from 'cloudflare:workers';
 
-export const { handle } = SvelteKitAuth(async (event) => {
+import { credentials } from '#lib/auth/credentials.js';
+
+export const { handle } = SvelteKitAuth(async () => {
 	return {
-		providers: [credentials(event.platform?.env.PASSWORD ?? '')],
+		providers: [credentials(env.PASSWORD ?? '')],
 		trustHost: true,
-		secret: event.platform?.env.AUTH_SECRET
+		secret: env.AUTH_SECRET
 	} satisfies SvelteKitAuthConfig;
 });
