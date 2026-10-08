@@ -62,6 +62,8 @@
 				editable: true,
 				onCellValueChanged: onVendorCellEdited,
 				filterParams: {
+					caseSensitive: true,
+					refreshValuesOnOpen: true,
 					values: (params: SetFilterValuesFuncParams) => {
 						fetch('/api/transactions/vendors')
 							.then((res) => res.json() as Promise<string[]>)
