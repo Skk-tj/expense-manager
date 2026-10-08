@@ -70,7 +70,20 @@
 					}
 				}
 			},
-			{ field: 'currency', cellDataType: 'text', filter: 'agTextColumnFilter' },
+			{
+				field: 'currency',
+				cellDataType: 'text',
+				filter: 'agSetColumnFilter',
+				filterParams: {
+					values: ['CAD', 'USD', 'JPY']
+				},
+				editable: true,
+				cellEditor: 'agSelectCellEditor',
+				cellEditorParams: {
+					values: ['CAD', 'USD', 'JPY']
+				},
+				onCellValueChanged: onCurrencyCellEdited
+			},
 			{
 				field: 'price',
 				filter: 'agNumberColumnFilter',
@@ -230,6 +243,41 @@
 				title: 'Failed to update price'
 			});
 			return;
+		}
+
+		toaster.success({
+			title: 'Success'
+		});
+	}
+
+	async function onCurrencyCellEdited(event: NewValueParams<ExpenseWithCategory, string>) {
+		const id = event.data.id;
+		const newValue = event.newValue;
+
+		if (!newValue || !['CAD', 'USD', 'JPY'].includes(newValue)) {
+			toaster.error({
+				title: 'Invalid currency'
+			});
+			return;
+		}
+
+		const response = await fetch(`/api/transactions/currency`, {
+			method: 'POST',
+			body: JSON.stringify({ id, currency: newValue }),
+			headers: {
+				'Content-Type': 'application/json'
+			}
+		});
+
+		if (!response.ok) {
+			toaster.error({
+				title: 'Failed to update currency'
+			});
+			return;
+		}
+
+		if (event.node) {
+			event.api.refreshCells({ rowNodes: [event.node], columns: ['price'], force: true });
 		}
 
 		toaster.success({
