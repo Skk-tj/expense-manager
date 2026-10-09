@@ -54,6 +54,8 @@ export const POST: RequestHandler = async ({ request }) => {
 			} else if (filter.filterType === 'set') {
 				if (filter.values && filter.values.length > 0) {
 					filters.push(inArray(column, filter.values));
+				} else {
+					filters.push(sql`1 = 0`);
 				}
 			}
 		}

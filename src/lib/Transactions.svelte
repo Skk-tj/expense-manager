@@ -104,27 +104,43 @@
 				filter: 'agSetColumnFilter',
 				headerName: 'Category',
 				cellDataType: 'object',
-				valueFormatter: (p) => p.value.category,
+				keyCreator: (params) =>
+					typeof params.value === 'object' && params.value !== null
+						? params.value.category
+						: (params.value ?? ''),
+				valueFormatter: (p) =>
+					typeof p.value === 'object' && p.value !== null ? p.value.category : (p.value ?? ''),
 				valueParser: (p) => p.newValue,
+				filterParams: {
+					values: Object.values(Categories),
+					keyCreator: (params: { value: any }) =>
+						typeof params.value === 'object' && params.value !== null
+							? params.value.category
+							: (params.value ?? ''),
+					valueFormatter: (params: { value: any }) =>
+						typeof params.value === 'object' && params.value !== null
+							? params.value.category
+							: (params.value ?? '')
+				},
 				cellClassRules: {
-					'bg-teal-500': (params) => params.data?.category.id === 1,
-					'bg-green-500': (params) => params.data?.category.id === 2,
-					'bg-blue-500': (params) => params.data?.category.id === 3,
-					'bg-yellow-500': (params) => params.data?.category.id === 4,
-					'bg-purple-500': (params) => params.data?.category.id === 5,
-					'bg-pink-500': (params) => params.data?.category.id === 6,
-					'bg-gray-500': (params) => params.data?.category.id === 7,
-					'bg-orange-500': (params) => params.data?.category.id === 8,
-					'bg-red-500': (params) => params.data?.category.id === 9
+					'bg-teal-500': (params) => Number(params.data?.category?.id) === 1,
+					'bg-green-500': (params) => Number(params.data?.category?.id) === 2,
+					'bg-blue-500': (params) => Number(params.data?.category?.id) === 3,
+					'bg-yellow-500': (params) => Number(params.data?.category?.id) === 4,
+					'bg-purple-500': (params) => Number(params.data?.category?.id) === 5,
+					'bg-pink-500': (params) => Number(params.data?.category?.id) === 6,
+					'bg-gray-500': (params) => Number(params.data?.category?.id) === 7,
+					'bg-orange-500': (params) => Number(params.data?.category?.id) === 8,
+					'bg-red-500': (params) => Number(params.data?.category?.id) === 9
 				},
 				editable: true,
 				cellEditor: 'agRichSelectCellEditor',
 				onCellValueChanged: onCategoryCellEdited,
 				cellEditorParams: {
-					values: Object.entries(Categories).map((x) => {
+					values: Object.entries(Categories).map(([id, category]) => {
 						return {
-							id: x[0],
-							category: x[1]
+							id: Number(id),
+							category
 						};
 					}),
 					formatValue: (value) => value.category
@@ -343,7 +359,7 @@
 	}
 
 	async function onCategoryCellEdited(
-		event: NewValueParams<ExpenseWithCategory, { id: string; category: string }>
+		event: NewValueParams<ExpenseWithCategory, { id: number | string; category: string }>
 	) {
 		const id = event.data.id;
 		const newValue = event.newValue;
